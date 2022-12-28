@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 
 /**
  * ref : https://gngsn.tistory.com/154
@@ -61,12 +62,9 @@ public class ItemSearchRepositoryImpl implements ItemSearchRepository{
             .defaultHeader(HttpHeaders.AUTHORIZATION, authKey)
             .build();
 
-    Mono<ResponseEntity<ItemDto>> responseEntityMono = client.get().accept(MediaType.APPLICATION_JSON)
+    return client.get().accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .toEntity(ItemDto.class);
-
-
-
-    return null;
+            .toEntity(ItemDto.class)
+            .block().getBody();
   }
 }
