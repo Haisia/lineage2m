@@ -17,6 +17,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// https://mvnrepository.com/artifact/org.projectlombok/lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// http client ( For Api call to NCsoft  )
+	compileOnly 'org.springframework.boot:spring-boot-starter-webflux'
+
 }
 
 tasks.named('test') {
