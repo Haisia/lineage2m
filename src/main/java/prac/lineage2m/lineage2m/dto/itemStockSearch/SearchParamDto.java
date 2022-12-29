@@ -3,14 +3,16 @@ package prac.lineage2m.lineage2m.dto.itemStockSearch;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter @Setter
+@ToString
 public class SearchParamDto {
   private String search_keyword;
   private Long from_enchant_level;
   private Long to_enchant_level;
   private Long server_id;
-  private boolean sale;
+  private Boolean sale;
   private Long page;
   private Long size;
 
