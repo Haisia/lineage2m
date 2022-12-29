@@ -23,6 +23,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// http client ( For Api call to NCsoft  )
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	compileOnly 'org.springframework.boot:spring-boot-starter-webflux'
 
 }
