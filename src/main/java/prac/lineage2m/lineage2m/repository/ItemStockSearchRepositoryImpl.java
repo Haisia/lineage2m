@@ -25,19 +25,25 @@ import java.nio.charset.StandardCharsets;
  */
 public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository {
 
-  public String getItemStocksToJsonString(SearchParamDto searchParamDto) throws IOException, IllegalAccessException {
+  /**
+   *
+   * @param searchParamDto
+   * @param key "Bearer ~~~~"
+   * @return
+   * @throws IOException
+   * @throws IllegalAccessException
+   */
+  public String getItemStocksToJsonString(SearchParamDto searchParamDto, String key) throws IOException, IllegalAccessException {
     String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
     String uri = getUriFromDto(searchParamDto);
 
-    String urlString2 = baseUrl+uri;
-
-
-    URL url = new URL(urlString2);
+    String completedUrl = baseUrl+uri;
+    URL url = new URL(completedUrl);
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
     conn.setRequestMethod("GET");
     conn.setRequestProperty("Content-type", "application/json");
-    conn.setRequestProperty("Authorization", "Bearer eyJraWQiOiI2YWFmYzEzZi1hMGJjLTQ1YjYtYTUyMS00YTAyMGUzMTljYWEiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOiI3MERFOTg3NS01OEZCLTQ0RTYtOEQ2MS0yNTMxQTU4REUzQTIifQ.aYZQcKmLGAW0-y-XE6xnOAy0q77w5MQUWPDCpErsHz8P8neb6VagevXAyke9quon7MqTpa5qufjIn8zJl2POGuBx-epQ2qKz-nBixSYyuxExOr8RnFJVROYHOoJ2X9xWsIkIrFi0O3dESSZvWOxEXi2KvFnoBAoKoqf7XA3CGBEjkCsHytbPOilwypE0AXvhaasglzUiYVzeUDyTKdn7h9SedVq-jmnvdzsOs-tCIlUvKesKLg1kFVy7_inipXWHuQrTtAtSVkN4-O2RtG_Pocl2wMHYBrOawxPbttS8ac35kMxzPPp7MkxsW6Krz6SVfGzsHJ0CCBIgHElyDzPIeQ");
+    conn.setRequestProperty("Authorization", key);
 
     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
     StringBuffer response = new StringBuffer();
@@ -51,8 +57,8 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
     return response.toString();
   }
 
-  public ItemSearchDto getItemStocksToObject(SearchParamDto searchParamDto) throws IOException, IllegalAccessException {
-    String json = getItemStocksToJsonString(searchParamDto);
+  public ItemSearchDto getItemStocksToObject(SearchParamDto searchParamDto, String key) throws IOException, IllegalAccessException {
+    String json = getItemStocksToJsonString(searchParamDto, key);
     return jsonToObjectMapping(json, new ItemSearchDto());
   }
 
