@@ -32,30 +32,39 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
    * @throws IOException
    * @throws IllegalAccessException
    */
-  public String getItemStocksToJsonString(SearchParamDto searchParamDto, String key) throws IOException, IllegalAccessException {
-    String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
-    String uri = getUriFromDto(searchParamDto);
-    String completedUrl = baseUrl + uri;
+  public String getItemStocksToJsonString(SearchParamDto searchParamDto, String key) {
+    StringBuffer response = null;
 
-    URL url = new URL(completedUrl);
-    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    try {
+      String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
+      String uri = getUriFromDto(searchParamDto);
+      String completedUrl = baseUrl + uri;
 
-    conn.setRequestMethod("GET");
-    conn.setRequestProperty("Content-type", "application/json");
-    conn.setRequestProperty("Authorization", key);
+      URL url = new URL(completedUrl);
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
-    StringBuffer response = new StringBuffer();
-    String readLine;
-    while ((readLine = in.readLine()) != null) {
-      response.append(readLine);
+      conn.setRequestMethod("GET");
+      conn.setRequestProperty("Content-type", "application/json");
+      conn.setRequestProperty("Authorization", key);
+
+      BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+      response = new StringBuffer();
+
+      in.close();
+      String readLine;
+      while ((readLine = in.readLine()) != null) {
+        response.append(readLine);
+      }
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    in.close();
 
     return response.toString();
   }
 
-  public ItemSearchDto getItemStocksToObject(SearchParamDto searchParamDto, String key) throws IOException, IllegalAccessException {
+  public ItemSearchDto getItemStocksToObject(SearchParamDto searchParamDto, String key) {
     String json = getItemStocksToJsonString(searchParamDto, key);
     return jsonToObjectMapping(json, new ItemSearchDto());
   }
@@ -66,12 +75,17 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
    * @param json   json of String type
    * @param target new className()
    * @return Mapped Object
-   * @throws JsonProcessingException
    */
-  public <T> T jsonToObjectMapping(String json, T target) throws JsonProcessingException {
+  public <T> T jsonToObjectMapping(String json, T target) {
     ObjectMapper mapper = new ObjectMapper();
+    T result = null;
+    try {
+      result = (T) mapper.readValue(json, target.getClass());
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
 
-    return (T) mapper.readValue(json, target.getClass());
+    return result;
   }
 
   /**
