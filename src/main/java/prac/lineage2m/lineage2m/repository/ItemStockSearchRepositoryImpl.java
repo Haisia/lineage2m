@@ -2,6 +2,7 @@ package prac.lineage2m.lineage2m.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Repository;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.ItemSearchDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.SearchParamDto;
 
@@ -23,6 +24,7 @@ import java.nio.charset.StandardCharsets;
  * &sale=false
  * &page=1&size=10
  */
+@Repository
 public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository {
 
   /**
@@ -50,14 +52,12 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
       BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
       response = new StringBuffer();
 
-      in.close();
       String readLine;
       while ((readLine = in.readLine()) != null) {
         response.append(readLine);
       }
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
+      in.close();
+    } catch (IllegalAccessException | IOException e) {
       throw new RuntimeException(e);
     }
 
