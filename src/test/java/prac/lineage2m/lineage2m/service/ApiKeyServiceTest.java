@@ -1,26 +1,41 @@
 package prac.lineage2m.lineage2m.service;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import prac.lineage2m.lineage2m.domain.ApiKey;
+import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
+
+import java.util.List;
 
 @SpringBootTest
 class ApiKeyServiceTest {
-  private final ApiKeyService apiKeyService;
+  String key = "eyJraWQiOiI2YWFmYzEzZi1hMGJjLTQ1YjYtYTUyMS00YTAyMGUzMTljYWEiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOiI3MERFOTg3NS01OEZCLTQ0RTYtOEQ2MS0yNTMxQTU4REUzQTIifQ.aYZQcKmLGAW0-y-XE6xnOAy0q77w5MQUWPDCpErsHz8P8neb6VagevXAyke9quon7MqTpa5qufjIn8zJl2POGuBx-epQ2qKz-nBixSYyuxExOr8RnFJVROYHOoJ2X9xWsIkIrFi0O3dESSZvWOxEXi2KvFnoBAoKoqf7XA3CGBEjkCsHytbPOilwypE0AXvhaasglzUiYVzeUDyTKdn7h9SedVq-jmnvdzsOs-tCIlUvKesKLg1kFVy7_inipXWHuQrTtAtSVkN4-O2RtG_Pocl2wMHYBrOawxPbttS8ac35kMxzPPp7MkxsW6Krz6SVfGzsHJ0CCBIgHElyDzPIeQ";
+
+  private final ApiKeyRepository apiKeyRepository;
 
   @Autowired
-  public ApiKeyServiceTest(ApiKeyService apiKeyService) {
-    this.apiKeyService = apiKeyService;
+  ApiKeyServiceTest(ApiKeyRepository apiKeyRepository) {
+    this.apiKeyRepository = apiKeyRepository;
+  }
+
+
+  @Test
+  @DisplayName("pk 값을 매개로 디비에 저장된 특정 키값을 찾는다.")
+  void findKeyById() {
+    String findApiKey = apiKeyRepository.findById(1L);
+
+    Assertions.assertThat(findApiKey).isEqualTo(key);
   }
 
   @Test
-  void findKeyById() {
-    String key = "eyJraWQiOiI2YWFmYzEzZi1hMGJjLTQ1YjYtYTUyMS00YTAyMGUzMTljYWEiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1aWQiOiI3MERFOTg3NS01OEZCLTQ0RTYtOEQ2MS0yNTMxQTU4REUzQTIifQ.aYZQcKmLGAW0-y-XE6xnOAy0q77w5MQUWPDCpErsHz8P8neb6VagevXAyke9quon7MqTpa5qufjIn8zJl2POGuBx-epQ2qKz-nBixSYyuxExOr8RnFJVROYHOoJ2X9xWsIkIrFi0O3dESSZvWOxEXi2KvFnoBAoKoqf7XA3CGBEjkCsHytbPOilwypE0AXvhaasglzUiYVzeUDyTKdn7h9SedVq-jmnvdzsOs-tCIlUvKesKLg1kFVy7_inipXWHuQrTtAtSVkN4-O2RtG_Pocl2wMHYBrOawxPbttS8ac35kMxzPPp7MkxsW6Krz6SVfGzsHJ0CCBIgHElyDzPIeQ";
-    ApiKey findApiKey = apiKeyService.findById(1L);
-
-    Assertions.assertThat(findApiKey.getPk()).isEqualTo(1L);
-    Assertions.assertThat(findApiKey.getKey()).isEqualTo(key);
+  @DisplayName("디비에 저장된 모든 키값을 가져온다.")
+  void findAll(){
+    List<String> keyList = apiKeyRepository.findAll();
+    Assertions.assertThat(keyList.size()).isEqualTo(1);
+    for (String s : keyList) {
+      Assertions.assertThat(s).isEqualTo(key);
+    }
   }
 }
