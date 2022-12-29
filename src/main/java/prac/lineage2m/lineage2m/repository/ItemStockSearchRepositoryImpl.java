@@ -26,9 +26,8 @@ import java.nio.charset.StandardCharsets;
 public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository {
 
   /**
-   *
    * @param searchParamDto
-   * @param key "Bearer ~~~~"
+   * @param key            "Bearer ~~~~"
    * @return
    * @throws IOException
    * @throws IllegalAccessException
@@ -36,8 +35,8 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
   public String getItemStocksToJsonString(SearchParamDto searchParamDto, String key) throws IOException, IllegalAccessException {
     String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
     String uri = getUriFromDto(searchParamDto);
+    String completedUrl = baseUrl + uri;
 
-    String completedUrl = baseUrl+uri;
     URL url = new URL(completedUrl);
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -47,12 +46,11 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
 
     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
     StringBuffer response = new StringBuffer();
-
     String readLine;
     while ((readLine = in.readLine()) != null) {
       response.append(readLine);
     }
-      in.close();
+    in.close();
 
     return response.toString();
   }
@@ -64,7 +62,8 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
 
   /**
    * String 타입 Json 형식의 문자열 arg1 을 arg2 객체에 매핑시켜 주는 메소드.
-   * @param json json of String type
+   *
+   * @param json   json of String type
    * @param target new className()
    * @return Mapped Object
    * @throws JsonProcessingException
@@ -77,9 +76,10 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
 
   /**
    * DTO 를 파싱해서 쿼리스트링 형태의 문자열로 만들어주는 메소드.
+   *
    * @param dto
-   * @return dto의 파라미터로 부터 파싱한 queryString 형태의 String 타입
    * @param <T>
+   * @return dto의 파라미터로 부터 파싱한 queryString 형태의 String 타입
    * @throws IllegalAccessException
    */
   public <T> String getUriFromDto(T dto) throws IllegalAccessException {
@@ -88,7 +88,7 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
     StringBuilder uri = new StringBuilder();
     for (Field declaredField : declaredFields) {
       declaredField.setAccessible(true);
-      if (declaredField.get(dto) != null){
+      if (declaredField.get(dto) != null) {
         uri.append("&").append(declaredField.getName()).append("=").append(declaredField.get(dto));
       }
     }
