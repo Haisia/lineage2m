@@ -11,7 +11,7 @@ public class ItemDto {
   private String item_name;
   private Long server_id;
   private String server_name;
-  private boolean world;
+  private Boolean world;
   private Long enchant_level;
   private String grade;
   private String image;
