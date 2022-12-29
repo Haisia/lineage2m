@@ -1,4 +1,4 @@
-package prac.lineage2m.lineage2m.dto;
+package prac.lineage2m.lineage2m.dto.itemStockSearch;
 
 import lombok.Getter;
 import lombok.Setter;
