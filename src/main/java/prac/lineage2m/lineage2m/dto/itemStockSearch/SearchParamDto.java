@@ -9,10 +9,10 @@ import lombok.ToString;
 @ToString
 public class SearchParamDto {
   private String search_keyword;
+  private Boolean sale;
   private Long from_enchant_level;
   private Long to_enchant_level;
   private Long server_id;
-  private Boolean sale;
   private Long page;
   private Long size;
 

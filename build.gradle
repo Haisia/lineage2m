@@ -26,6 +26,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	compileOnly 'org.springframework.boot:spring-boot-starter-webflux'
 
+	// MockMVC (For Controller test)
+	testCompileOnly 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
