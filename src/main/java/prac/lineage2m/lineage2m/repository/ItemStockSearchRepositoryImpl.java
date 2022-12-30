@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import static prac.lineage2m.lineage2m.util.GlobalUtil.getUriFromDto;
 import static prac.lineage2m.lineage2m.util.GlobalUtil.jsonToObjectMapping;
@@ -28,16 +29,16 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
 
   /**
    * @param paramDto
-   * @param key            "Bearer ~~~~"
+   * @param
    * @return
    * @throws IOException
    * @throws IllegalAccessException
    */
-  public String getItemStocksToJsonString(ParamDto paramDto, String key) {
+  public String getItemStocksToJsonString(ParamDto paramDto, Map<String, String> options) {
     StringBuffer response = null;
 
     try {
-      String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
+      String baseUrl = options.remove("baseUrl");
       String uri = getUriFromDto(paramDto);
       String completedUrl = baseUrl + uri;
 
@@ -46,7 +47,9 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
 
       conn.setRequestMethod("GET");
       conn.setRequestProperty("Content-type", "application/json");
-      conn.setRequestProperty("Authorization", key);
+      for (String mapKey : options.keySet()) {
+        conn.setRequestProperty(mapKey,options.get(mapKey));
+      }
 
       BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
       response = new StringBuffer();
@@ -63,8 +66,8 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
     return response.toString();
   }
 
-  public ResultDto getItemStocksToObject(ParamDto paramDto, String key) {
-    String json = getItemStocksToJsonString(paramDto, key);
+  public ResultDto getItemStocksToObject(ParamDto paramDto, Map<String,String> options) {
+    String json = getItemStocksToJsonString(paramDto, options);
     return jsonToObjectMapping(json, new ResultDto());
   }
 

@@ -14,7 +14,9 @@ import prac.lineage2m.lineage2m.util.GlobalUtil;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,7 +48,14 @@ class ItemSearchRepositoryImplTest {
             .build();
 
     // when
-    String result = itemStockSearchRepository.getItemStocksToJsonString(paramDto, GlobalUtil.keyMaker(key));
+    String key = GlobalUtil.keyMaker(this.key);
+    Map<String, String> options = new HashMap<>() {
+      {
+        put("baseUrl","https://dev-api.plaync.com/l2m/v1.0/market/items/search?");
+        put("Authorization",key);
+      }
+    };
+    String result = itemStockSearchRepository.getItemStocksToJsonString(paramDto, options);
     // then
     assertThat(result).isNotNull();
     assertThat(result).isNotEmpty();
@@ -71,7 +80,14 @@ class ItemSearchRepositoryImplTest {
             .build();
 
     // when
-    ResultDto result = itemStockSearchRepository.getItemStocksToObject(paramDto, GlobalUtil.keyMaker(key));
+    String key = GlobalUtil.keyMaker(this.key);
+    Map<String, String> options = new HashMap<>() {
+      {
+        put("baseUrl","https://dev-api.plaync.com/l2m/v1.0/market/items/search?");
+        put("Authorization",key);
+      }
+    };
+    ResultDto result = itemStockSearchRepository.getItemStocksToObject(paramDto, options);
     List<ContentsDto> contents = result.getContents();
     PaginationDto pagination = result.getPagination();
 
