@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.ResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
 import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
-import prac.lineage2m.lineage2m.repository.ItemStockSearchRepository;
+import prac.lineage2m.lineage2m.repository.NCApiRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
 import java.net.URLEncoder;
@@ -18,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ItemStockSearchServiceImpl implements ItemStockSearchService {
   private final ApiKeyRepository apiKeyRepository;
-  private final ItemStockSearchRepository itemStockSearchRepository;
+  private final NCApiRepository NCApiRepository;
 
   public ResultDto getItemStocksToObject(ParamDto paramDto) {
     List<String> keyList = apiKeyRepository.findAll();
@@ -37,6 +37,6 @@ public class ItemStockSearchServiceImpl implements ItemStockSearchService {
     };
 
 
-    return itemStockSearchRepository.getItemStocksToObject(paramDto, options);
+    return NCApiRepository.getItemStocksToObject(paramDto, options);
   }
 }

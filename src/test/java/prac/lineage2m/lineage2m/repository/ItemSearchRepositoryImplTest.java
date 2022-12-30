@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class ItemSearchRepositoryImplTest {
-  private final ItemStockSearchRepository itemStockSearchRepository;
+  private final NCApiRepository NCApiRepository;
   private final ApiKeyRepository apiKeyRepository;
   String key;
 
@@ -55,7 +55,7 @@ class ItemSearchRepositoryImplTest {
         put("Authorization",key);
       }
     };
-    String result = itemStockSearchRepository.getItemStocksToJsonString(paramDto, options);
+    String result = NCApiRepository.apiCallOfGetToJsonString(paramDto, options);
     // then
     assertThat(result).isNotNull();
     assertThat(result).isNotEmpty();
@@ -87,7 +87,7 @@ class ItemSearchRepositoryImplTest {
         put("Authorization",key);
       }
     };
-    ResultDto result = itemStockSearchRepository.getItemStocksToObject(paramDto, options);
+    ResultDto result = NCApiRepository.getItemStocksToObject(paramDto, options);
     List<ContentsDto> contents = result.getContents();
     PaginationDto pagination = result.getPagination();
 
@@ -109,8 +109,8 @@ class ItemSearchRepositoryImplTest {
 
 
   @Autowired
-  public ItemSearchRepositoryImplTest(ItemStockSearchRepository itemStockSearchRepository, ApiKeyRepository apiKeyRepository) {
-    this.itemStockSearchRepository = itemStockSearchRepository;
+  public ItemSearchRepositoryImplTest(NCApiRepository NCApiRepository, ApiKeyRepository apiKeyRepository) {
+    this.NCApiRepository = NCApiRepository;
     this.apiKeyRepository = apiKeyRepository;
   }
 }

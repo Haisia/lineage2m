@@ -7,7 +7,7 @@ import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
 import java.util.Map;
 
 @Repository
-public interface ItemStockSearchRepository {
-  String getItemStocksToJsonString(ParamDto paramDto, Map<String,String> options);
+public interface NCApiRepository {
+  String apiCallOfGetToJsonString(ParamDto paramDto, Map<String,String> options);
   ResultDto getItemStocksToObject(ParamDto paramDto, Map<String,String> options);
 }
