@@ -10,13 +10,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ItemSearchDto;
+import prac.lineage2m.lineage2m.util.TestUtile;
 
-import java.io.OutputStreamWriter;
-import java.util.Collections;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,37 +28,62 @@ class NCApiControllerTest {
     this.mockMvc = mockMvc;
   }
 
-
   @Test
   @DisplayName("아이템검색 결과 아이템이름은 search_keyword 를 포함하고 있어야 한다.")
   public void 아이템_검색결과_아이템이름_검증() throws Exception{
-    //given
-    MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-    String searchStr = "핸드이런아이템은없음";
-    params.put("search_keyword", Collections.singletonList(searchStr));
-    params.put("from_enchant_level", Collections.singletonList("1"));
-    params.put("to_enchant_level", Collections.singletonList("1"));
-    params.put("server_id", Collections.singletonList("1"));
-    params.put("page", Collections.singletonList("1"));
-    params.put("size", Collections.singletonList("10"));
-
-    RequestBuilder requestBuilder
-            = MockMvcRequestBuilders
-            .get("/market/items/search")
-            .queryParams(params);
+      //given
+    List<Map<String,String>> itemList = TestUtile.itemMaker();
 
     //expect
-    ResultActions result = mockMvc.perform(requestBuilder)
-            .andExpect(status().isOk())
-            .andExpect(header().string("Content-Type", "application/json"));
 
-    // 검색 결과가 존재하면 검색결과의 아이템 이름은 검색조건의 아이템이름을 항상 포함해야 한다.
-    try {
-      result.andExpect(jsonPath("$.contents").isEmpty())
-              .andDo(print());
-    } catch (AssertionError e) {
-      result.andExpect(jsonPath("$.contents[0].item_name", Matchers.containsString(searchStr)))
-              .andDo(print());
+    for (Map<String,String> item : itemList) {
+      RequestBuilder requestBuilder = TestUtile.requestBuilderMakerByMap("/market/items/search", item);
+      ResultActions result = mockMvc.perform(requestBuilder)
+              .andExpect(status().isOk())
+              .andExpect(header().string("Content-Type", "application/json"));
+
+      // 검색 결과가 존재하면 검색결과의 아이템 이름은 검색조건의 아이템이름을 항상 포함해야 한다.
+      try {
+        result.andExpect(jsonPath("$.contents").isEmpty())
+                .andDo(print());
+      } catch (AssertionError e) {
+        result.andExpect(jsonPath("$.contents[0].item_name", Matchers.containsString(item.get("search_keyword"))))
+                .andDo(print());
+      }
     }
+  }
+
+
+
+  @Test
+  @DisplayName("다른조건이 없고 아이템이름이 '핸드' 를 포함하는 검색결과는 무조건 1개이상 존재해야 한다. (ex : 핸드 오브 카브리오)")
+  public void 검색결과가_무조건_존재해야_하는_테스트() throws Exception {
+    String searchStr = "핸드";
+
+    RequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/market/items/search")
+            .param("search_keyword", searchStr);
+
+    mockMvc.perform(requestBuilder)
+            .andExpect(status().isOk())
+            .andExpect(header().string("Content-Type", "application/json"))
+            .andExpect(jsonPath("$.contents").isNotEmpty())
+            .andDo(print());
+  }
+
+  @Test
+  @DisplayName("다른조건이 없고 아이템 이름이 '이런이름의아이템은없을걸' 을 포함하는 검색결과는 무조건 존재하지 않아야 한다.")
+  public void 검색결과가_무조건_존재하지_않아야_하는_테스트() throws Exception {
+    String searchStr = "이런이름의아이템은없을걸";
+
+    RequestBuilder requestBuilder = MockMvcRequestBuilders
+            .get("/market/items/search")
+            .param("search_keyword", searchStr);
+
+    mockMvc.perform(requestBuilder)
+            .andExpect(status().isOk())
+            .andExpect(header().string("Content-Type", "application/json"))
+            .andExpect(jsonPath("$.contents").isEmpty())
+            .andDo(print());
   }
 }
