@@ -1,6 +1,7 @@
 package prac.lineage2m.lineage2m.repository;
 
 import org.springframework.stereotype.Repository;
+import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.ParamDtoForRepository;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.ResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
 
@@ -30,6 +31,11 @@ public class NCApiRepositoryImpl implements NCApiRepository {
     return jsonToObjectMapping(json, new ResultDto());
   }
 
+  public prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.ResultDto getItemPriceStatsToObject(ParamDtoForRepository paramDto, Map<String, String> options) {
+    String json = apiCallOfGetToJsonString(paramDto, options);
+    return jsonToObjectMapping(json, new prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.ResultDto());
+  }
+
   /**
    * 파라미터를 참조하여 외부 API 를 Get 방식으로 호출하고
    * 그 결과를 Json 방식의 String 으로 리턴합니다.
@@ -37,7 +43,7 @@ public class NCApiRepositoryImpl implements NCApiRepository {
    * @param options baseUrl 와 Authorization 는 필수로 포함되어야 함.
    * @return API 호출 결과. Json 형태의 String 타입.
    */
-  public String apiCallOfGetToJsonString(ParamDto paramDto, Map<String, String> options) {
+  public <T> String apiCallOfGetToJsonString(T paramDto, Map<String, String> options) {
     StringBuffer response = null;
     try {
       HttpURLConnection conn = connectionMakerForGET(paramDto, options);
@@ -63,7 +69,7 @@ public class NCApiRepositoryImpl implements NCApiRepository {
    * @param options baseUrl 와 Authorization 는 필수로 포함되어야 함.
    * @return API 호출 결과
    */
-  public HttpURLConnection connectionMakerForGET(ParamDto paramDto, Map<String, String> options) {
+  public <T> HttpURLConnection connectionMakerForGET(T paramDto, Map<String, String> options) {
     HttpURLConnection conn;
     try {
       String baseUrl = options.remove("baseUrl");
