@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter @Setter
 @ToString
-public class ItemSearchDto {
-  private List<ItemDto> contents;
+public class ResultDto {
+  private List<ContentsDto> contents;
   private PaginationDto pagination;
 }

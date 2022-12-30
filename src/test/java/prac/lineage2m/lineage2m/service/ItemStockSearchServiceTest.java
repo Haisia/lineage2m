@@ -4,10 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ItemDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ItemSearchDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.ContentsDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.ResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.PaginationDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.SearchParamDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +25,7 @@ class ItemStockSearchServiceTest {
   public void getItemStocksToObject() throws Exception{
     //given
     String search_keyword = URLEncoder.encode("핸드", StandardCharsets.UTF_8);
-    SearchParamDto searchParamDto = SearchParamDto.builder()
+    ParamDto paramDto = ParamDto.builder()
             .search_keyword(search_keyword)
             .from_enchant_level(1L)
             .to_enchant_level(1L)
@@ -36,12 +36,12 @@ class ItemStockSearchServiceTest {
             .build();
 
     //when
-    ItemSearchDto result = itemStockSearchService.getItemStocksToObject(searchParamDto);
-    List<ItemDto> contents = result.getContents();
+    ResultDto result = itemStockSearchService.getItemStocksToObject(paramDto);
+    List<ContentsDto> contents = result.getContents();
     PaginationDto pagination = result.getPagination();
 
     //then
-    for (ItemDto content : contents) {
+    for (ContentsDto content : contents) {
       assertThat(content.getItem_name()).contains("핸드");
       assertThat(content.getEnchant_level()).isGreaterThanOrEqualTo(1L);
       assertThat(content.getEnchant_level()).isLessThanOrEqualTo(3L);

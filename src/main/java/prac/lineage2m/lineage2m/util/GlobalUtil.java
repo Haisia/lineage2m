@@ -24,7 +24,6 @@ public class GlobalUtil {
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-
     return result;
   }
 

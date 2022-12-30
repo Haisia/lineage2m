@@ -1,8 +1,8 @@
 package prac.lineage2m.lineage2m.repository;
 
 import org.springframework.stereotype.Repository;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ItemSearchDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.SearchParamDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.ResultDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import static prac.lineage2m.lineage2m.util.GlobalUtil.jsonToObjectMapping;
 
 /**
  * ref : https://gngsn.tistory.com/154
- * <p>
  * API 호출 예)
  * https://dev-api.plaync.com/
  * l2m/v1.0/market/items/search
@@ -28,18 +27,18 @@ import static prac.lineage2m.lineage2m.util.GlobalUtil.jsonToObjectMapping;
 public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository {
 
   /**
-   * @param searchParamDto
+   * @param paramDto
    * @param key            "Bearer ~~~~"
    * @return
    * @throws IOException
    * @throws IllegalAccessException
    */
-  public String getItemStocksToJsonString(SearchParamDto searchParamDto, String key) {
+  public String getItemStocksToJsonString(ParamDto paramDto, String key) {
     StringBuffer response = null;
 
     try {
       String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
-      String uri = getUriFromDto(searchParamDto);
+      String uri = getUriFromDto(paramDto);
       String completedUrl = baseUrl + uri;
 
       URL url = new URL(completedUrl);
@@ -64,9 +63,9 @@ public class ItemStockSearchRepositoryImpl implements ItemStockSearchRepository 
     return response.toString();
   }
 
-  public ItemSearchDto getItemStocksToObject(SearchParamDto searchParamDto, String key) {
-    String json = getItemStocksToJsonString(searchParamDto, key);
-    return jsonToObjectMapping(json, new ItemSearchDto());
+  public ResultDto getItemStocksToObject(ParamDto paramDto, String key) {
+    String json = getItemStocksToJsonString(paramDto, key);
+    return jsonToObjectMapping(json, new ResultDto());
   }
 
 }
