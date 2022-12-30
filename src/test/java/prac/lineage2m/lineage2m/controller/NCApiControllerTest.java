@@ -35,7 +35,6 @@ class NCApiControllerTest {
     List<Map<String,String>> itemList = TestUtile.itemMaker();
 
     //expect
-
     for (Map<String,String> item : itemList) {
       RequestBuilder requestBuilder = TestUtile.requestBuilderMakerByMap("/market/items/search", item);
       ResultActions result = mockMvc.perform(requestBuilder)
