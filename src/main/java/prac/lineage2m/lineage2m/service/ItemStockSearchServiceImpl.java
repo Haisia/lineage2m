@@ -19,6 +19,8 @@ import java.util.Map;
 public class ItemStockSearchServiceImpl implements ItemStockSearchService {
   private final ApiKeyRepository apiKeyRepository;
   private final NCApiRepository NCApiRepository;
+  private static String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
+
 
   public ResultDto getItemStocksToObject(ParamDto paramDto) {
     List<String> keyList = apiKeyRepository.findAll();
@@ -31,7 +33,7 @@ public class ItemStockSearchServiceImpl implements ItemStockSearchService {
 
     Map<String, String> options = new HashMap<>() {
       {
-        put("baseUrl","https://dev-api.plaync.com/l2m/v1.0/market/items/search?");
+        put("baseUrl", baseUrl);
         put("Authorization",key);
       }
     };
