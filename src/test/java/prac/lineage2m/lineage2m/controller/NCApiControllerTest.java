@@ -96,7 +96,6 @@ class NCApiControllerTest {
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/market/items/" + item_id + "/price?")
-            .param("item_id", item_id)
             .param("server_id", "1111")
             .param("enchant_level", "0");
 
@@ -121,7 +120,6 @@ class NCApiControllerTest {
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders
             .get("/market/items/" + item_id + "/price?")
-            .param("item_id", item_id)
             .param("server_id", "1111")
             .param("enchant_level", "0");
 

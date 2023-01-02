@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter
+@Setter @Getter
 @ToString
-public class PriceNow {
-  private Long server_id;
-  private String server_name;
-  private Boolean world;
+public class PriceLastDto {
+  private boolean world;
   private Long unit_price;
 }

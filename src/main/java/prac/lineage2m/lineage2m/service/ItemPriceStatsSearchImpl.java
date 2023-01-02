@@ -3,7 +3,7 @@ package prac.lineage2m.lineage2m.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamDto;
-import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamDtoForRepository;
+import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceResultDto;
 import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
 import prac.lineage2m.lineage2m.repository.NCApiRepository;
@@ -23,7 +23,7 @@ public class ItemPriceStatsSearchImpl implements ItemPriceStatsSearch {
 
   public PriceResultDto getItemPriceStatsToObject(PriceParamDto priceParamDto) {
     String newBaseUrl = baseUrl + priceParamDto.getItem_id() + "/price?";
-    PriceParamDtoForRepository priceParamDtoForRepository = new PriceParamDtoForRepository(priceParamDto.getServer_id(), priceParamDto.getEnchant_level());
+    PriceParamForRepositoryDto priceParamForRepositoryDto = new PriceParamForRepositoryDto(priceParamDto.getServer_id(), priceParamDto.getEnchant_level());
     List<String> keyList = apiKeyRepository.findAll();
     String key = GlobalUtil.keyMaker(keyList.get(0));
 
@@ -34,6 +34,6 @@ public class ItemPriceStatsSearchImpl implements ItemPriceStatsSearch {
       }
     };
 
-    return NCApiRepository.getItemPriceStatsToObject(priceParamDtoForRepository, options);
+    return NCApiRepository.getItemPriceStatsToObject(priceParamForRepositoryDto, options);
   }
 }

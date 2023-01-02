@@ -10,9 +10,9 @@ public class PriceResultDto {
   private Long item_id;
   private Long server_id;
   private Long enchant_level;
-  private PriceLast last;
-  private PriceNow now;
-  private PriceMin min;
-  private PriceMax max;
-  private PriceAvg avg;
+  private PriceLastDto last;
+  private PriceNowDto now;
+  private PriceMinDto min;
+  private PriceMaxDto max;
+  private PriceAvgDto avg;
 }

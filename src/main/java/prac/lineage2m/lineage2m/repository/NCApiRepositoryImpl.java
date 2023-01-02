@@ -1,7 +1,7 @@
 package prac.lineage2m.lineage2m.repository;
 
 import org.springframework.stereotype.Repository;
-import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamDtoForRepository;
+import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
@@ -32,7 +32,7 @@ public class NCApiRepositoryImpl implements NCApiRepository {
     return jsonToObjectMapping(json, new StockResultDto());
   }
 
-  public PriceResultDto getItemPriceStatsToObject(PriceParamDtoForRepository paramDto, Map<String, String> options) {
+  public PriceResultDto getItemPriceStatsToObject(PriceParamForRepositoryDto paramDto, Map<String, String> options) {
     String json = apiCallOfGetToJsonString(paramDto, options);
 
     return jsonToObjectMapping(json, new PriceResultDto());

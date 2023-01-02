@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @Setter @Getter
 @ToString
-public class PriceMax {
+public class PriceMaxDto {
   private Long server_id;
   private String server_name;
   private boolean world;
