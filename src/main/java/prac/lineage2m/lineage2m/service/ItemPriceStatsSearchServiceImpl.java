@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ItemPriceStatsSearchImpl implements ItemPriceStatsSearch {
+public class ItemPriceStatsSearchServiceImpl implements ItemPriceStatsSearchService {
   private final ApiKeyRepository apiKeyRepository;
   private final NCApiRepository NCApiRepository;
   private static String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/";

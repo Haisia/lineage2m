@@ -11,8 +11,8 @@ import static org.assertj.core.api.Assertions.*;
 
 
 @SpringBootTest
-class ItemPriceStatsSearchImplTest {
-  private final ItemPriceStatsSearch itemPriceStatsSearch;
+class ItemPriceStatsSearchServiceImplTest {
+  private final ItemPriceStatsSearchService itemPriceStatsSearchService;
 
   @Test
   @DisplayName("결과가 무조건 나와야 하는 테스트")
@@ -23,7 +23,7 @@ class ItemPriceStatsSearchImplTest {
             .build();
 
     //when
-    PriceResultDto result = itemPriceStatsSearch.getItemPriceStatsToObject(priceParamDto);
+    PriceResultDto result = itemPriceStatsSearchService.getItemPriceStatsToObject(priceParamDto);
 
     //then
     assertThat(result).isNotNull();
@@ -41,7 +41,7 @@ class ItemPriceStatsSearchImplTest {
             .build();
 
     //when
-    PriceResultDto result = itemPriceStatsSearch.getItemPriceStatsToObject(priceParamDto);
+    PriceResultDto result = itemPriceStatsSearchService.getItemPriceStatsToObject(priceParamDto);
 
     //then
     assertThat(result.getAvg()).isNull();
@@ -49,8 +49,8 @@ class ItemPriceStatsSearchImplTest {
   }
 
   @Autowired
-  public ItemPriceStatsSearchImplTest(ItemPriceStatsSearch itemPriceStatsSearch) {
-    this.itemPriceStatsSearch = itemPriceStatsSearch;
+  public ItemPriceStatsSearchServiceImplTest(ItemPriceStatsSearchService itemPriceStatsSearchService) {
+    this.itemPriceStatsSearchService = itemPriceStatsSearchService;
   }
 
 }
