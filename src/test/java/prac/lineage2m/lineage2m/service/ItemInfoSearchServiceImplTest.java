@@ -1,4 +1,4 @@
-package prac.lineage2m.lineage2m.repository.NCApiRepositoryTest;
+package prac.lineage2m.lineage2m.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,44 +6,35 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;
+import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
 import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
-import prac.lineage2m.lineage2m.repository.NCApiRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class GetItemInfoToObjectTest {
-  private final NCApiRepository ncApiRepository;
+class ItemInfoSearchServiceImplTest {
+  private final ItemInfoSearchService itemInfoSearchService;
   private final ApiKeyRepository apiKeyRepository;
-  String key;
+  private String key;
 
   @BeforeEach
-  void beforEach(){
-    key = GlobalUtil.keyMaker(apiKeyRepository.findById(1L));
+  public void beforeEach(){
+    key = GlobalUtil.keyMaker(apiKeyRepository.findAll().get(0));
   }
 
   @Test
-  @DisplayName("검색결과가 항상 존재하는 조건으로 API 호출하기")
-  public void 무조건_검색결과가_존재해야_하는_테스트() throws Exception{
+  @DisplayName("결과가 존재하는 조건으로 API를 호출한다.")
+  public void 무조건_결과가_존재해야_하는_테스트() throws Exception{
     //given
-    Long item_id = 100630002L;
-    InfoParamForRepositoryDto param = new InfoParamForRepositoryDto(5L);
-
-    Map<String, String> options = new HashMap<>() {
-      {
-        put("baseUrl","https://dev-api.plaync.com/l2m/v1.0/market/items/"+item_id+"/?");
-        put("Authorization",key);
-      }
-    };
+    InfoParamDto infoParamDto = InfoParamDto.builder()
+            .item_id(100630002L)
+            .enchant_level(5L)
+            .build();
 
     //when
-    InfoResultDto result = ncApiRepository.getItemInfoToObject(param, options);
+    InfoResultDto result = itemInfoSearchService.getItemInfoToObject(infoParamDto);
 
     //then
     assertThat(result.getItem_id()).isEqualTo(100630002L);
@@ -57,21 +48,16 @@ public class GetItemInfoToObjectTest {
   }
 
   @Test
-  @DisplayName("검색결과가 항상 없는 조건으로 API 호출하기")
-  public void 무조건_검색결과가_없어야_하는_테스트() throws Exception{
+  @DisplayName("결과가 없는 조건으로 API를 호출한다.")
+  public void 무조건_결과가_없어야_하는_테스트() throws Exception{
     //given
-    Long item_id = 100630002222222L;
-    InfoParamForRepositoryDto param = new InfoParamForRepositoryDto(5L);
-
-    Map<String, String> options = new HashMap<>() {
-      {
-        put("baseUrl","https://dev-api.plaync.com/l2m/v1.0/market/items/"+item_id+"/?");
-        put("Authorization",key);
-      }
-    };
+    InfoParamDto infoParamDto = InfoParamDto.builder()
+            .item_id(10063000222222L)
+            .enchant_level(5L)
+            .build();
 
     //when
-    InfoResultDto result = ncApiRepository.getItemInfoToObject(param, options);
+    InfoResultDto result = itemInfoSearchService.getItemInfoToObject(infoParamDto);
 
     //then
     System.out.println("result = " + result);
@@ -84,12 +70,16 @@ public class GetItemInfoToObjectTest {
     assertThat(result.getTrade_category_name()).isNull();
     assertThat(result.getAttribute()).isNull();
     assertThat(result.getOptions().size()).isEqualTo(0);
-
   }
 
+
+
+
+
+
   @Autowired
-  public GetItemInfoToObjectTest(NCApiRepository ncApiRepository, ApiKeyRepository apiKeyRepository) {
-    this.ncApiRepository = ncApiRepository;
+  public ItemInfoSearchServiceImplTest(ItemInfoSearchService itemInfoSearchService, ApiKeyRepository apiKeyRepository) {
+    this.itemInfoSearchService = itemInfoSearchService;
     this.apiKeyRepository = apiKeyRepository;
   }
 }
