@@ -1,6 +1,5 @@
-package prac.lineage2m.lineage2m.dto.itemPriceStatsSearch;
+package prac.lineage2m.lineage2m.dto.itemInfoSearch;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,15 +11,12 @@ import lombok.ToString;
  * 새로운 ParamDto 가 필요해서 만듦.
  * item_id 는 서비스단에서 uri 에 합쳐서 리파지토리로 넘겨줌
  */
-@Getter @Setter
+@Setter @Getter
 @ToString
-public class PriceParamForRepositoryDto {
-  private Long server_id;
+public class InfoParamForRepositoryDto {
   private Long enchant_level;
 
-  @Builder
-  public PriceParamForRepositoryDto(Long server_id, Long enchant_level) {
-    this.server_id = server_id;
+  public InfoParamForRepositoryDto(Long enchant_level) {
     this.enchant_level = enchant_level;
   }
 }
