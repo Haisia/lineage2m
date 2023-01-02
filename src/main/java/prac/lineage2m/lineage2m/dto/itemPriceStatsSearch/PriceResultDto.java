@@ -9,8 +9,8 @@ import lombok.ToString;
 public class PriceResultDto {
   private Long item_id;
   private Long enchant_level;
-  private PriceNow priceNow;
-  private PriceMin priceMin;
-  private PriceMax priceMax;
-  private PriceAvg priceAvg;
+  private PriceNow Now;
+  private PriceMin Min;
+  private PriceMax Max;
+  private PriceAvg Avg;
 }
