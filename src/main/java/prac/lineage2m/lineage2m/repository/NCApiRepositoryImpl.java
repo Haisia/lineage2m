@@ -1,6 +1,9 @@
 package prac.lineage2m.lineage2m.repository;
 
 import org.springframework.stereotype.Repository;
+import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
+import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;
+import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
@@ -32,10 +35,14 @@ public class NCApiRepositoryImpl implements NCApiRepository {
     return jsonToObjectMapping(json, new StockResultDto());
   }
 
-  public PriceResultDto getItemPriceStatsToObject(PriceParamForRepositoryDto paramDto, Map<String, String> options) {
-    String json = apiCallOfGetToJsonString(paramDto, options);
-
+  public PriceResultDto getItemPriceStatsToObject(PriceParamForRepositoryDto priceParamDto, Map<String, String> options) {
+    String json = apiCallOfGetToJsonString(priceParamDto, options);
     return jsonToObjectMapping(json, new PriceResultDto());
+  }
+
+  public InfoResultDto getItemInfoToObject(InfoParamForRepositoryDto infoParamDto, Map<String, String> options) {
+    String json = apiCallOfGetToJsonString(infoParamDto, options);
+    return jsonToObjectMapping(json, new InfoResultDto());
   }
 
   /**
