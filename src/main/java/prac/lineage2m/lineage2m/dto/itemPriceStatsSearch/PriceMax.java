@@ -9,5 +9,6 @@ import lombok.ToString;
 public class PriceMax {
   private Long server_id;
   private String server_name;
+  private boolean world;
   private Long unit_price;
 }

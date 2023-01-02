@@ -8,9 +8,11 @@ import lombok.ToString;
 @ToString
 public class PriceResultDto {
   private Long item_id;
+  private Long server_id;
   private Long enchant_level;
-  private PriceNow Now;
-  private PriceMin Min;
-  private PriceMax Max;
-  private PriceAvg Avg;
+  private PriceLast last;
+  private PriceNow now;
+  private PriceMin min;
+  private PriceMax max;
+  private PriceAvg avg;
 }
