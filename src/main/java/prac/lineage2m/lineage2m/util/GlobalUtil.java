@@ -38,9 +38,14 @@ public class GlobalUtil {
     Class<?> clazz = dto.getClass();
     Field[] declaredFields = clazz.getDeclaredFields();
     StringBuilder uri = new StringBuilder();
+    boolean isFirstField = true;
+
     for (Field declaredField : declaredFields) {
       declaredField.setAccessible(true);
-      if (declaredField.get(dto) != null) {
+      if (declaredField.get(dto) != null && isFirstField) {
+        uri.append(declaredField.getName()).append("=").append(declaredField.get(dto));
+        isFirstField=false;
+      } else if (declaredField.get(dto) != null) {
         uri.append("&").append(declaredField.getName()).append("=").append(declaredField.get(dto));
       }
     }
