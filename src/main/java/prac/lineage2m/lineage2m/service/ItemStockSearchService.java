@@ -1,10 +1,10 @@
 package prac.lineage2m.lineage2m.service;
 
 import org.springframework.stereotype.Service;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ResultDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
 
 @Service
 public interface ItemStockSearchService {
-  ResultDto getItemStocksToObject(ParamDto paramDto);
+  StockResultDto getItemStocksToObject(StockParamDto stockParamDto);
 }

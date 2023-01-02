@@ -5,10 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ContentsDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ResultDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.PaginationDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockContentsDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockPaginationDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ class ItemSearchRepositoryImplTest {
   void getItemStocks() throws IOException, IllegalAccessException {
     // given
     String search_keyword = URLEncoder.encode("핸드", StandardCharsets.UTF_8);
-    ParamDto paramDto = ParamDto.builder()
+    StockParamDto stockParamDto = StockParamDto.builder()
             .search_keyword(search_keyword)
             .from_enchant_level(1L)
             .to_enchant_level(1L)
@@ -55,7 +55,7 @@ class ItemSearchRepositoryImplTest {
         put("Authorization",key);
       }
     };
-    String result = NCApiRepository.apiCallOfGetToJsonString(paramDto, options);
+    String result = NCApiRepository.apiCallOfGetToJsonString(stockParamDto, options);
     // then
     assertThat(result).isNotNull();
     assertThat(result).isNotEmpty();
@@ -69,7 +69,7 @@ class ItemSearchRepositoryImplTest {
     // given
     String searchStr = "핸드";
     String search_keyword = URLEncoder.encode(searchStr, StandardCharsets.UTF_8);
-    ParamDto paramDto = ParamDto.builder()
+    StockParamDto stockParamDto = StockParamDto.builder()
             .search_keyword(search_keyword)
             .from_enchant_level(1L)
             .to_enchant_level(3L)
@@ -87,12 +87,12 @@ class ItemSearchRepositoryImplTest {
         put("Authorization",key);
       }
     };
-    ResultDto result = NCApiRepository.getItemStocksToObject(paramDto, options);
-    List<ContentsDto> contents = result.getContents();
-    PaginationDto pagination = result.getPagination();
+    StockResultDto result = NCApiRepository.getItemStocksToObject(stockParamDto, options);
+    List<StockContentsDto> contents = result.getContents();
+    StockPaginationDto pagination = result.getPagination();
 
     // then
-    for (ContentsDto content : contents) {
+    for (StockContentsDto content : contents) {
       assertThat(content.getItem_name()).contains("핸드");
       assertThat(content.getEnchant_level()).isGreaterThanOrEqualTo(1L);
       assertThat(content.getEnchant_level()).isLessThanOrEqualTo(3L);

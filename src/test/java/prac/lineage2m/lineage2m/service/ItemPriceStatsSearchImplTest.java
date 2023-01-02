@@ -35,8 +35,9 @@ class ItemPriceStatsSearchImplTest {
   public void 결과가_무조건_없어야_하는_테스트() throws Exception {
     //given
     PriceParamDto priceParamDto = PriceParamDto.builder()
-            .item_id(100630002L)
-            .enchant_level(1000L)
+            .item_id(1006304342002L)
+            .enchant_level(0L)
+            .server_id(1111L)
             .build();
 
     //when

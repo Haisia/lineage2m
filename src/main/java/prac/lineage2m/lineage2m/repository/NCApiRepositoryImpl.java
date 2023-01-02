@@ -1,9 +1,10 @@
 package prac.lineage2m.lineage2m.repository;
 
 import org.springframework.stereotype.Repository;
-import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.ParamDtoForRepository;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ResultDto;
-import prac.lineage2m.lineage2m.dto.itemStockSearch.ParamDto;
+import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamDtoForRepository;
+import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceResultDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -26,14 +27,15 @@ import static prac.lineage2m.lineage2m.util.GlobalUtil.jsonToObjectMapping;
  */
 @Repository
 public class NCApiRepositoryImpl implements NCApiRepository {
-  public ResultDto getItemStocksToObject(ParamDto paramDto, Map<String, String> options) {
-    String json = apiCallOfGetToJsonString(paramDto, options);
-    return jsonToObjectMapping(json, new ResultDto());
+  public StockResultDto getItemStocksToObject(StockParamDto stockParamDto, Map<String, String> options) {
+    String json = apiCallOfGetToJsonString(stockParamDto, options);
+    return jsonToObjectMapping(json, new StockResultDto());
   }
 
-  public prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.ResultDto getItemPriceStatsToObject(ParamDtoForRepository paramDto, Map<String, String> options) {
+  public PriceResultDto getItemPriceStatsToObject(PriceParamDtoForRepository paramDto, Map<String, String> options) {
     String json = apiCallOfGetToJsonString(paramDto, options);
-    return jsonToObjectMapping(json, new prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.ResultDto());
+
+    return jsonToObjectMapping(json, new PriceResultDto());
   }
 
   /**
