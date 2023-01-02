@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
 
-@Service
 public interface ItemStockSearchService {
   StockResultDto getItemStocksToObject(StockParamDto stockParamDto);
 }
