@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter
+@Setter @Getter
 @ToString
-public class Min {
-  private Long server_id;
-  private String server_name;
-  private Long unit_price;
+public class PriceAvg {
+  private Double unit_price;
 }

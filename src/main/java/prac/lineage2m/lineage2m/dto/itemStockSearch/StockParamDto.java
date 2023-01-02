@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @Getter @Setter
 @ToString
-public class ParamDto {
+public class StockParamDto {
   private String search_keyword;
   private Boolean sale;
   private Long from_enchant_level;
@@ -17,7 +17,7 @@ public class ParamDto {
   private Long size;
 
   @Builder
-  public ParamDto(String search_keyword, Long from_enchant_level, Long to_enchant_level, Long server_id, boolean sale, Long page, Long size) {
+  public StockParamDto(String search_keyword, Long from_enchant_level, Long to_enchant_level, Long server_id, boolean sale, Long page, Long size) {
     this.search_keyword = search_keyword;
     this.from_enchant_level = from_enchant_level;
     this.to_enchant_level = to_enchant_level;

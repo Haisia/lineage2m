@@ -13,12 +13,12 @@ import lombok.ToString;
  */
 @Getter @Setter
 @ToString
-public class ParamDtoForRepository {
+public class PriceParamDtoForRepository {
   private Long server_id;
   private Long enchant_level;
 
   @Builder
-  public ParamDtoForRepository(Long server_id, Long enchant_level) {
+  public PriceParamDtoForRepository(Long server_id, Long enchant_level) {
     this.server_id = server_id;
     this.enchant_level = enchant_level;
   }

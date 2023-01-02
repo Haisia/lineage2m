@@ -6,11 +6,11 @@ import lombok.ToString;
 
 @Getter @Setter
 @ToString
-public class ResultDto {
+public class PriceResultDto {
   private Long item_id;
   private Long enchant_level;
-  private Now now;
-  private Min min;
-  private Max max;
-  private Avg avg;
+  private PriceNow priceNow;
+  private PriceMin priceMin;
+  private PriceMax priceMax;
+  private PriceAvg priceAvg;
 }

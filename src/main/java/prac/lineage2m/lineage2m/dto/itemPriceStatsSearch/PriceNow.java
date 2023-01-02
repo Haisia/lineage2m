@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter @Getter
+@Getter @Setter
 @ToString
-public class Max {
+public class PriceNow {
   private Long server_id;
   private String server_name;
   private Long unit_price;
+  private Boolean world;
 }

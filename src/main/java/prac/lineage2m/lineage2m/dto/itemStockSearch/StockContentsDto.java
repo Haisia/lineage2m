@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @Getter @Setter
 @ToString
-public class ContentsDto {
+public class StockContentsDto {
   private Long item_id;
   private String item_name;
   private Long server_id;

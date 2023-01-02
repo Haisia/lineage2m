@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter @Setter
 @ToString
-public class ResultDto {
-  private List<ContentsDto> contents;
-  private PaginationDto pagination;
+public class StockPaginationDto {
+  private Long page;
+  private Long size;
+  private Long last_page;
+  private Long total;
 }
