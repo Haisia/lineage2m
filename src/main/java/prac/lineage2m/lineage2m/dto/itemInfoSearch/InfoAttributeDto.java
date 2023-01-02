@@ -14,6 +14,6 @@ public class InfoAttributeDto {
   private String description;
   private boolean storable;
   private Long safe_enchant_level;
-  private String meterial_name;
+  private String material_name;
   private boolean enchantable;
 }

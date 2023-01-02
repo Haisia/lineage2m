@@ -9,7 +9,7 @@ import java.util.List;
 @Getter @Setter
 @ToString
 public class InfoResultDto {
-  private String item_id;
+  private Long item_id;
   private String item_name;
   private Long enchant_level;
   private String grade;
