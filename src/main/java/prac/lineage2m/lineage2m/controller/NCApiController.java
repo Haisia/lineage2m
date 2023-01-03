@@ -5,6 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
+import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListResultDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamDto;
@@ -14,6 +15,9 @@ import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
 import prac.lineage2m.lineage2m.service.ItemInfoSearchService;
 import prac.lineage2m.lineage2m.service.ItemPriceStatsSearchService;
 import prac.lineage2m.lineage2m.service.ItemStockSearchService;
+import prac.lineage2m.lineage2m.service.ServerListService;
+
+import java.util.List;
 
 
 @RestController
@@ -22,6 +26,7 @@ public class NCApiController {
   private final ItemStockSearchService itemStockSearchService;
   private final ItemPriceStatsSearchService itemPriceStatsSearchService;
   private final ItemInfoSearchService itemInfoSearchService;
+  private final ServerListService serverListService;
 
   @GetMapping("/market/items/search")
   public StockResultDto itemStockSearch(@ModelAttribute StockParamDto stockParamDto, BindingResult bindingResult){
@@ -38,6 +43,11 @@ public class NCApiController {
   @GetMapping("/market/items/{item_id}")
   public InfoResultDto itemInfoSearch(@ModelAttribute InfoParamDto infoParamDto, BindingResult bindingResult){
     return itemInfoSearchService.getItemInfoToObject(infoParamDto);
+  }
+
+  @GetMapping("/market/servers")
+  public List<ServerListResultDto> serverListSearch(){
+    return serverListService.getServerListToObject();
   }
 
 }

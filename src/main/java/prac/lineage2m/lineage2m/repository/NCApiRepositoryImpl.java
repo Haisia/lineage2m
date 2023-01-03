@@ -3,7 +3,8 @@ package prac.lineage2m.lineage2m.repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
-import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
+import prac.lineage2m.lineage2m.dto.NoParamDto;
+import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListResultDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamForRepositoryDto;
@@ -17,6 +18,8 @@ import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +48,14 @@ public class NCApiRepositoryImpl implements NCApiRepository {
     return jsonToObjectMapping(json, new InfoResultDto());
   }
 
+  public List<ServerListResultDto> getServerListToObject(Map<String, String> options) {
+    String json = apiCallOfGetToJsonString(new NoParamDto(), options);
+    ObjectMapper mapper = new ObjectMapper();
+    List<ServerListResultDto> list = mapper.convertValue(jsonToObjectMapping(json, new ArrayList<>()), new TypeReference<List<ServerListResultDto>>() {
+    });
+    return list;
+  }
+
   /**
    * 파라미터를 참조하여 외부 API 를 Get 방식으로 호출하고
    * 그 결과를 Json 방식의 String 으로 리턴합니다.
@@ -55,7 +66,7 @@ public class NCApiRepositoryImpl implements NCApiRepository {
   public <T> String apiCallOfGetToJsonString(T paramDto, Map<String, String> options) {
     StringBuffer response = null;
     try {
-      HttpURLConnection conn = connectionMakerForGET(paramDto, options);
+      HttpURLConnection conn = connectionMakerForGet(paramDto, options);
 
       BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
       response = new StringBuffer();
@@ -78,12 +89,10 @@ public class NCApiRepositoryImpl implements NCApiRepository {
    * @param options baseUrl 와 Authorization 는 필수로 포함되어야 함.
    * @return API 호출 결과
    */
-  public <T> HttpURLConnection connectionMakerForGET(T paramDto, Map<String, String> options) {
+  public <T> HttpURLConnection connectionMakerForGet(T paramDto, Map<String, String> options) {
     HttpURLConnection conn;
     try {
-      String baseUrl = options.remove("baseUrl");
-      String uri = getUriFromDto(paramDto);
-      String completedUrl = baseUrl + uri;
+      String completedUrl = completedUrlMaker(paramDto, options);
 
       URL url = new URL(completedUrl);
       conn = (HttpURLConnection) url.openConnection();
@@ -97,6 +106,12 @@ public class NCApiRepositoryImpl implements NCApiRepository {
       throw new RuntimeException(e);
     }
     return conn;
+  }
+
+  public <T> String completedUrlMaker(T paramDto, Map<String, String> options) throws IllegalAccessException {
+    String baseUrl = options.remove("baseUrl");
+    String uri = getUriFromDto(paramDto);
+    return baseUrl + uri;
   }
 
   /**
