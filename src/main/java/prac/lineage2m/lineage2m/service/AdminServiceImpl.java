@@ -24,7 +24,7 @@ public class AdminServiceImpl implements AdminService{
 
   /**
    * API 로 월드랑 서버목록 전체 받아와서 DB에 등록한다.
-   * 서버가 추가됐을 때만 한번씩 돌려주면 된다.
+   * 신서버 나올때만 한번씩 돌려주면 된다.
    * @return 성공여부
    */
   public boolean saveWorldAndServerList() {
@@ -33,23 +33,14 @@ public class AdminServiceImpl implements AdminService{
     List<World> worldList = new ArrayList<>();
     List<Server> serverList = new ArrayList<>();
 
-    for (ServerListResultDto worldDto : worldListOfDto) {
-      World world = new World(worldDto.getWorld_id(), worldDto.getWorld_name());
-      worldList.add(world);
+    dtoSeparateToWorldAndServerList(worldListOfDto, worldList, serverList);
 
-      List<ServerListServerDto> serverListOfDto = worldDto.getServers();
-      for (ServerListServerDto serverDto : serverListOfDto) {
-        Server server = new Server(serverDto.getServer_id(),serverDto.getServer_name());
-        serverList.add(server);
-      }
-    }
+    Map<String, Long> worldNameAndPk = saveDistinctWorld(worldList);
 
-    Map<String, Long> worldNameAndPk = new HashMap<>();
-    for (World world : worldList) {
-      if(worldCustomRepository.findByWorldName(world.getWorldName()).isEmpty()) worldRepository.saveAndFlush(world);
-      worldNameAndPk.put(world.getWorldName(),world.getPk());
-    }
+    return saveDistinctServer(serverList, worldNameAndPk);
+  }
 
+  private boolean saveDistinctServer(List<Server> serverList, Map<String, Long> worldNameAndPk) {
     for (Server server : serverList) {
       String serverName = server.getServerName();
       serverName = serverName.substring(0,serverName.length()-2);
@@ -69,7 +60,28 @@ public class AdminServiceImpl implements AdminService{
         serverRepository.saveAndFlush(server);
       }
     }
-
     return true;
+  }
+
+  private Map<String, Long> saveDistinctWorld(List<World> worldList) {
+    Map<String, Long> worldNameAndPk = new HashMap<>();
+    for (World world : worldList) {
+      if(worldCustomRepository.findByWorldName(world.getWorldName()).isEmpty()) worldRepository.saveAndFlush(world);
+      worldNameAndPk.put(world.getWorldName(),world.getPk());
+    }
+    return worldNameAndPk;
+  }
+
+  private static void dtoSeparateToWorldAndServerList(List<ServerListResultDto> worldListOfDto, List<World> worldList, List<Server> serverList) {
+    for (ServerListResultDto worldDto : worldListOfDto) {
+      World world = new World(worldDto.getWorld_id(), worldDto.getWorld_name());
+      worldList.add(world);
+
+      List<ServerListServerDto> serverListOfDto = worldDto.getServers();
+      for (ServerListServerDto serverDto : serverListOfDto) {
+        Server server = new Server(serverDto.getServer_id(),serverDto.getServer_name());
+        serverList.add(server);
+      }
+    }
   }
 }

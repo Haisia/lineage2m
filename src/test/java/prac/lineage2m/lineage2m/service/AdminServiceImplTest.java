@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class AdminServiceImplTest {
-  final static int THE_NUMBER_OF_WORLD = 17;
+  final static int THE_NUMBER_OF_WORLD = 16;
   private final AdminService adminService;
   private final WorldRepository worldRepository;
   private final ServerRepository serverRepository;
@@ -25,7 +25,7 @@ class AdminServiceImplTest {
 
   @Test
   @DisplayName("외부API를 통해 받아온 Word, Server 리스트를 DB에 등록하고 find로 확인 해 본다.")
-  public void saveServerAndWorldList() throws Exception{
+  public void saveServerAndWorldList() throws Exception {
     //given
     adminService.saveWorldAndServerList();
 
@@ -40,11 +40,11 @@ class AdminServiceImplTest {
     //then
     boolean isWorldContainAllServerName = serverList.stream()
             .map(server -> server.getServerName().substring(0, server.getServerName().length() - 2))
-            .allMatch(serverName -> worldNameList.contains(serverName) && serverName.length()>=1);
+            .allMatch(serverName -> worldNameList.contains(serverName) && serverName.length() >= 1);
 
     assertThat(isWorldContainAllServerName).isTrue();
-    assertThat(worldList.size()).isGreaterThanOrEqualTo(THE_NUMBER_OF_WORLD);
-    assertThat(serverList.size()).isGreaterThanOrEqualTo(THE_NUMBER_OF_WORLD*10);
+    assertThat(worldList.size()).isEqualTo(THE_NUMBER_OF_WORLD);
+    assertThat(serverList.size()).isEqualTo(THE_NUMBER_OF_WORLD * 10);
   }
 
 
