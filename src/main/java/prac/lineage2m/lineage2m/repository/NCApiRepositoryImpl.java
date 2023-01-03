@@ -1,6 +1,7 @@
 package prac.lineage2m.lineage2m.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import prac.lineage2m.lineage2m.dto.NoParamDto;

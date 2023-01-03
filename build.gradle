@@ -2,6 +2,18 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.7'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+
+	id 'jacoco'
+}
+
+jacoco {
+	// JaCoCo 버전
+	toolVersion = '0.8.5'
+
+//  테스트결과 리포트를 저장할 경로 변경
+//  default는 "$/jacoco"
+//  reportsDir = file("$buildDir/customJacocoReportDir")
+//  ref : https://techblog.woowahan.com/2661/
 }
 
 group = 'prac.lineage2m'
