@@ -1,4 +1,4 @@
-package prac.lineage2m.lineage2m.repository;
+package prac.lineage2m.lineage2m.repository.world;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Repository
-public class WorldCustomRepositoryImpl implements WorldCustomRepository{
+public class WorldRepositoryImpl implements WorldRepositoryCustom {
   private final EntityManager em;
 
   public Optional<World> findByWorldName(String worldName){

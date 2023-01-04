@@ -6,10 +6,8 @@ import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListResultDto;
 import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListServerDto;
 import prac.lineage2m.lineage2m.entity.Server;
 import prac.lineage2m.lineage2m.entity.World;
-import prac.lineage2m.lineage2m.repository.ServerCustomRepository;
-import prac.lineage2m.lineage2m.repository.ServerRepository;
-import prac.lineage2m.lineage2m.repository.WorldCustomRepository;
-import prac.lineage2m.lineage2m.repository.WorldRepository;
+import prac.lineage2m.lineage2m.repository.server.ServerRepository;
+import prac.lineage2m.lineage2m.repository.world.WorldRepository;
 
 import java.util.*;
 
@@ -19,8 +17,6 @@ public class AdminServiceImpl implements AdminService{
   private final ServerListService serverListService;
   private final WorldRepository worldRepository;
   private final ServerRepository serverRepository;
-  private final WorldCustomRepository worldCustomRepository;
-  private final ServerCustomRepository serverCustomRepository;
 
   /**
    * API 로 월드랑 서버목록 전체 받아와서 DB에 등록한다.
@@ -56,7 +52,7 @@ public class AdminServiceImpl implements AdminService{
 
       server.setWorld(world);
 
-      if(serverCustomRepository.findByServerName(server.getServerName()).isEmpty()) {
+      if(serverRepository.findByServerName(server.getServerName()).isEmpty()) {
         serverRepository.saveAndFlush(server);
       }
     }
@@ -66,7 +62,7 @@ public class AdminServiceImpl implements AdminService{
   private Map<String, Long> saveDistinctWorld(List<World> worldList) {
     Map<String, Long> worldNameAndPk = new HashMap<>();
     for (World world : worldList) {
-      if(worldCustomRepository.findByWorldName(world.getWorldName()).isEmpty()) worldRepository.saveAndFlush(world);
+      if(worldRepository.findByWorldName(world.getWorldName()).isEmpty()) worldRepository.saveAndFlush(world);
       worldNameAndPk.put(world.getWorldName(),world.getPk());
     }
     return worldNameAndPk;

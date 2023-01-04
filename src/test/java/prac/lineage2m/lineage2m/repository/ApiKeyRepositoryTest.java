@@ -3,6 +3,7 @@ package prac.lineage2m.lineage2m.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
 
 @SpringBootTest
 public class ApiKeyRepositoryTest {

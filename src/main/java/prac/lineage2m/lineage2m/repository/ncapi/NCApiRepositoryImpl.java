@@ -1,4 +1,4 @@
-package prac.lineage2m.lineage2m.repository;
+package prac.lineage2m.lineage2m.repository.ncapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

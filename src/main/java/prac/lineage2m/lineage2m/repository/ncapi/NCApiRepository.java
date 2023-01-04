@@ -1,4 +1,4 @@
-package prac.lineage2m.lineage2m.repository;
+package prac.lineage2m.lineage2m.repository.ncapi;
 
 import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListResultDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;

@@ -1,4 +1,4 @@
-package prac.lineage2m.lineage2m.repository;
+package prac.lineage2m.lineage2m.repository.apikey;
 
 import java.util.List;
 

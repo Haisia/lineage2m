@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
+import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
 
 import java.util.List;
 

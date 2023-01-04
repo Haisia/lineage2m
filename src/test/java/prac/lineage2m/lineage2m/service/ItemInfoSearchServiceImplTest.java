@@ -1,6 +1,5 @@
 package prac.lineage2m.lineage2m.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
-import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
+import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -9,8 +9,8 @@ import prac.lineage2m.lineage2m.dto.itemStockSearch.StockContentsDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockPaginationDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
-import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
-import prac.lineage2m.lineage2m.repository.NCApiRepository;
+import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
+import prac.lineage2m.lineage2m.repository.ncapi.NCApiRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class GetItemStocksToObjectTest {
-  private final prac.lineage2m.lineage2m.repository.NCApiRepository NCApiRepository;
+  private final prac.lineage2m.lineage2m.repository.ncapi.NCApiRepository NCApiRepository;
   private final ApiKeyRepository apiKeyRepository;
   String key;
 
