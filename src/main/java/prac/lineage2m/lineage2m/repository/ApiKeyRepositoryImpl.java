@@ -2,7 +2,7 @@ package prac.lineage2m.lineage2m.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import prac.lineage2m.lineage2m.domain.ApiKey;
+import prac.lineage2m.lineage2m.entity.ApiKey;
 
 import javax.persistence.EntityManager;
 import java.util.List;
