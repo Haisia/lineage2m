@@ -8,5 +8,5 @@ import lombok.ToString;
 @ToString
 public class PriceLastDto {
   private boolean world;
-  private Long unit_price;
+  private Long unitPrice;
 }

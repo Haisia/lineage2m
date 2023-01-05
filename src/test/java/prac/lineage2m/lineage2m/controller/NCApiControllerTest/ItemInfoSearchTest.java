@@ -26,23 +26,23 @@ class ItemInfoSearchTest {
   @DisplayName("검색결과가 존재하는 조건으로 API 호출하기")
   public void 무조건_검색결과가_존재해야_하는_테스트() throws Exception{
     //given
-    String item_id = "100630002";
+    String itemId = "100630002";
 
     //when
     RequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/market/items/" + item_id)
+            .get("/market/items/" + itemId)
             .param("enchant_level", "5");
 
     //then
     mockMvc.perform(requestBuilder)
             .andExpect(status().isOk())
             .andExpect(header().string("Content-Type", "application/json"))
-            .andExpect(jsonPath("$.item_id").value(item_id))
-            .andExpect(jsonPath("$.item_name").value("핸드 오브 카브리오"))
-            .andExpect(jsonPath("$.enchant_level").value(5))
+            .andExpect(jsonPath("$.itemId").value(itemId))
+            .andExpect(jsonPath("$.itemName").value("핸드 오브 카브리오"))
+            .andExpect(jsonPath("$.enchantLevel").value(5))
             .andExpect(jsonPath("$.grade").value("epic"))
-            .andExpect(jsonPath("$.grade_name").value("영웅"))
-            .andExpect(jsonPath("$.trade_category_name").value("오브"))
+            .andExpect(jsonPath("$.gradeName").value("영웅"))
+            .andExpect(jsonPath("$.tradeCategoryName").value("오브"))
             .andExpect(jsonPath("$.attribute").isNotEmpty())
             .andDo(print());
   }
@@ -51,23 +51,23 @@ class ItemInfoSearchTest {
   @DisplayName("검색결과가 없는 조건으로 API 호출하기")
   public void 무조건_검색결과가_없어야_하는_테스트() throws Exception{
     //given
-    String item_id = "1006300022222";
+    String itemId = "1006300022222";
 
     //when
     RequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/market/items/" + item_id)
+            .get("/market/items/" + itemId)
             .param("enchant_level", "5");
 
     //then
     mockMvc.perform(requestBuilder)
             .andExpect(status().isOk())
             .andExpect(header().string("Content-Type", "application/json"))
-            .andExpect(jsonPath("$.item_id").value(0))
-            .andExpect(jsonPath("$.item_name").isEmpty())
-            .andExpect(jsonPath("$.enchant_level").value(0))
+            .andExpect(jsonPath("$.itemId").value(0))
+            .andExpect(jsonPath("$.itemName").isEmpty())
+            .andExpect(jsonPath("$.enchantLevel").value(0))
             .andExpect(jsonPath("$.grade").isEmpty())
-            .andExpect(jsonPath("$.grade_name").isEmpty())
-            .andExpect(jsonPath("$.trade_category_name").isEmpty())
+            .andExpect(jsonPath("$.gradeName").isEmpty())
+            .andExpect(jsonPath("$.tradeCategoryName").isEmpty())
             .andExpect(jsonPath("$.attribute").isEmpty())
             .andDo(print());
   }

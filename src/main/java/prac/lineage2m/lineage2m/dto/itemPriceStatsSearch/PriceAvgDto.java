@@ -7,6 +7,6 @@ import lombok.ToString;
 @Setter @Getter
 @ToString
 public class PriceAvgDto {
-  private Double unit_price;
+  private Double unitPrice;
   private boolean world;
 }

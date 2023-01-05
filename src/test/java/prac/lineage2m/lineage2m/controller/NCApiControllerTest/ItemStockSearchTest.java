@@ -47,7 +47,7 @@ class ItemStockSearchTest {
         result.andExpect(jsonPath("$.contents").isEmpty())
                 .andDo(print());
       } catch (AssertionError e) {
-        result.andExpect(jsonPath("$.contents[0].item_name", Matchers.containsString(item.get("search_keyword"))))
+        result.andExpect(jsonPath("$.contents[0].itemName", Matchers.containsString(item.get("search_keyword"))))
                 .andDo(print());
       }
     }

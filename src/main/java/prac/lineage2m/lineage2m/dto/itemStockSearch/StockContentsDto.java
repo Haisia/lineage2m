@@ -7,16 +7,16 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 public class StockContentsDto {
-  private Long item_id;
-  private String item_name;
-  private Long server_id;
-  private String server_name;
+  private Long itemId;
+  private String itemName;
+  private Long serverId;
+  private String serverName;
   private Boolean world;
-  private Long enchant_level;
+  private Long enchantLevel;
   private String grade;
   private String image;
-  private Long now_min_unit_price;
-  private Long avg_unit_price;
+  private Long nowMinUnitPrice;
+  private Long avgUnitPrice;
 
 
 }

@@ -1,10 +1,9 @@
-package prac.lineage2m.lineage2m.repository;
+package prac.lineage2m.lineage2m.repository.server;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import prac.lineage2m.lineage2m.entity.Server;
-import prac.lineage2m.lineage2m.entity.World;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
@@ -12,7 +11,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Repository
-public class ServerCustomRepositoryImpl implements ServerCustomRepository{
+public class ServerRepositoryImpl implements ServerRepositoryCustom {
   private final EntityManager em;
 
   public Optional<Server> findByServerName(String serverName){

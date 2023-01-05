@@ -24,9 +24,9 @@ class ItemStockSearchServiceTest {
   @DisplayName("일부 값은 검색조건과 동일해야 하고, 일부 값은 NULL이면 안된다.")
   public void getItemStocksToObject() throws Exception{
     //given
-    String search_keyword = URLEncoder.encode("핸드", StandardCharsets.UTF_8);
+    String searchKeyword = URLEncoder.encode("핸드", StandardCharsets.UTF_8);
     StockParamDto stockParamDto = StockParamDto.builder()
-            .search_keyword(search_keyword)
+            .search_keyword(searchKeyword)
             .from_enchant_level(1L)
             .to_enchant_level(1L)
             .server_id(1L)
@@ -42,12 +42,12 @@ class ItemStockSearchServiceTest {
 
     //then
     for (StockContentsDto content : contents) {
-      assertThat(content.getItem_name()).contains("핸드");
-      assertThat(content.getEnchant_level()).isGreaterThanOrEqualTo(1L);
-      assertThat(content.getEnchant_level()).isLessThanOrEqualTo(3L);
+      assertThat(content.getItemName()).contains("핸드");
+      assertThat(content.getEnchantLevel()).isGreaterThanOrEqualTo(1L);
+      assertThat(content.getEnchantLevel()).isLessThanOrEqualTo(3L);
       assertThat(content.getImage()).isNotNull();
-      assertThat(content.getNow_min_unit_price()).isNotNull();
-      assertThat(content.getAvg_unit_price()).isNotNull();
+      assertThat(content.getNowMinUnitPrice()).isNotNull();
+      assertThat(content.getAvgUnitPrice()).isNotNull();
     }
 
     assertThat(pagination.getSize()).isEqualTo(10L);

@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 public class ServerListServerDto {
-  private Long server_id;
-  private String server_name;
+  private Long serverId;
+  private String serverName;
 }

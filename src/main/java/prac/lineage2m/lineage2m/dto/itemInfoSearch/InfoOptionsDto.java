@@ -9,6 +9,6 @@ import lombok.ToString;
 public class InfoOptionsDto {
   private String display;
   private String description;
-  private String option_name;
-  private String extra_display;
+  private String optionName;
+  private String extraDisplay;
 }

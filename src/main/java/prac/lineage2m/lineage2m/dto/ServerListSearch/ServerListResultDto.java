@@ -9,7 +9,7 @@ import java.util.List;
 @Getter @Setter
 @ToString
 public class ServerListResultDto {
-  private Long world_id;
-  private String world_name;
+  private Long worldId;
+  private String worldName;
   private List<ServerListServerDto> servers;
 }

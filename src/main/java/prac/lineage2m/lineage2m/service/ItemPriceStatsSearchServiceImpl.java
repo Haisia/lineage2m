@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceResultDto;
-import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
-import prac.lineage2m.lineage2m.repository.NCApiRepository;
+import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
+import prac.lineage2m.lineage2m.repository.ncapi.NCApiRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
 import java.util.HashMap;

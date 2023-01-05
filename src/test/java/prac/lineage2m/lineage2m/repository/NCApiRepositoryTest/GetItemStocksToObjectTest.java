@@ -9,8 +9,8 @@ import prac.lineage2m.lineage2m.dto.itemStockSearch.StockContentsDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockPaginationDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
-import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
-import prac.lineage2m.lineage2m.repository.NCApiRepository;
+import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
+import prac.lineage2m.lineage2m.repository.ncapi.NCApiRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class GetItemStocksToObjectTest {
-  private final prac.lineage2m.lineage2m.repository.NCApiRepository NCApiRepository;
+  private final prac.lineage2m.lineage2m.repository.ncapi.NCApiRepository NCApiRepository;
   private final ApiKeyRepository apiKeyRepository;
   String key;
 
@@ -64,12 +64,12 @@ class GetItemStocksToObjectTest {
 
     // then
     for (StockContentsDto content : contents) {
-      assertThat(content.getItem_name()).contains("핸드");
-      assertThat(content.getEnchant_level()).isGreaterThanOrEqualTo(1L);
-      assertThat(content.getEnchant_level()).isLessThanOrEqualTo(3L);
+      assertThat(content.getItemName()).contains("핸드");
+      assertThat(content.getEnchantLevel()).isGreaterThanOrEqualTo(1L);
+      assertThat(content.getEnchantLevel()).isLessThanOrEqualTo(3L);
       assertThat(content.getImage()).isNotNull();
-      assertThat(content.getNow_min_unit_price()).isNotNull();
-      assertThat(content.getAvg_unit_price()).isNotNull();
+      assertThat(content.getNowMinUnitPrice()).isNotNull();
+      assertThat(content.getAvgUnitPrice()).isNotNull();
 //      assertThat(content.getServer_id()).isEqualTo(2L);
 // TODO : 요청값이랑 동일하게 나와야 하는 것 같은데 다르게 나온다. 일단 nc에 문의해놓은 상태
 //      https://help.plaync.com/qna/list/ticket

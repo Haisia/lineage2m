@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
-import prac.lineage2m.lineage2m.repository.ApiKeyRepository;
-import prac.lineage2m.lineage2m.repository.NCApiRepository;
+import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
+import prac.lineage2m.lineage2m.repository.ncapi.NCApiRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
 
 import java.net.URLEncoder;

@@ -1,9 +1,17 @@
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.7'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 
 	id 'jacoco'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+
 }
 
 jacoco {
@@ -20,6 +28,12 @@ group = 'prac.lineage2m'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
 }
@@ -33,6 +47,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	// http client ( For Api call to NCsoft  )
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -40,7 +56,35 @@ dependencies {
 
 	// MockMVC (For Controller test)
 	testCompileOnly 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+
 }
+
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+//querydsl 추가 끝
+
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -1,14 +1,13 @@
 package prac.lineage2m.lineage2m.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import prac.lineage2m.lineage2m.entity.Server;
 import prac.lineage2m.lineage2m.entity.World;
-import prac.lineage2m.lineage2m.repository.ServerRepository;
-import prac.lineage2m.lineage2m.repository.WorldRepository;
+import prac.lineage2m.lineage2m.repository.server.ServerRepository;
+import prac.lineage2m.lineage2m.repository.world.WorldRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
