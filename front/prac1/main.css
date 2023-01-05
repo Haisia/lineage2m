@@ -1,0 +1,23 @@
+.modal {
+  background: white;
+  width: 500px;
+  height: 500px;
+  border: 2px solid white;
+  border-radius: 10px;
+
+  /* 가운데 정렬 */
+  position: fixed;
+  margin: 50px auto;
+  left: 0;
+  right: 0;
+}
+#wrap {
+  background: rgba(0, 0, 0, 0.5);
+  height: 2000px;
+}
+.displayNone {
+  display: none;
+}
+.login {
+  padding: 0 30px;
+}

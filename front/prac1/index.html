@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <button class="openModal">모달창 열기</button>
+    <div id="wrap" class="displayNone">
+      <div class="modal">
+        <div class="login">
+          id : <input type="text" id="id" /><br />
+          password : <input type="password" id="password" />
+        </div>
+        <br />
+        <button class="closeModal">닫기</button>
+      </div>
+    </div>
+
+    <script>
+      $(".parnt").on("click", function () {
+        console.log("클릭");
+      });
+
+      $(".openModal").on("click", function () {
+        $("#wrap").removeClass("displayNone");
+      });
+
+      $(".closeModal").on("click", function () {
+        $("#wrap").addClass("displayNone");
+      });
+    </script>
+  </body>
+</html>
