@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import prac.lineage2m.lineage2m.dto.ItemInfoIncludeAttributeItemOptionsDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
 import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
@@ -42,7 +43,7 @@ public class GetItemInfoToObjectTest {
     };
 
     //when
-    InfoResultDto result = ncApiRepository.getItemInfoToObject(param, options);
+    ItemInfoIncludeAttributeItemOptionsDto result = ncApiRepository.getItemInfoToObject(param, options);
 
     //then
     assertThat(result.getItemId()).isEqualTo(100630002L);
@@ -70,7 +71,7 @@ public class GetItemInfoToObjectTest {
     };
 
     //when
-    InfoResultDto result = ncApiRepository.getItemInfoToObject(param, options);
+    ItemInfoIncludeAttributeItemOptionsDto result = ncApiRepository.getItemInfoToObject(param, options);
 
     //then
     System.out.println("result = " + result);

@@ -3,11 +3,12 @@ package prac.lineage2m.lineage2m.repository.ncapi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import org.springframework.stereotype.Repository;
+import prac.lineage2m.lineage2m.dto.ItemInfoIncludeAttributeItemOptionsDto;
 import prac.lineage2m.lineage2m.dto.NoParamDto;
 import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListResultDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;
-import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
@@ -44,14 +45,14 @@ public class NCApiRepositoryImpl implements NCApiRepository {
     return jsonToObjectMapping(json, new PriceResultDto());
   }
 
-  public InfoResultDto getItemInfoToObject(InfoParamForRepositoryDto infoParamDto, Map<String, String> options) {
+  public ItemInfoIncludeAttributeItemOptionsDto getItemInfoToObject(InfoParamForRepositoryDto infoParamDto, Map<String, String> options) {
     String json = apiCallOfGetToJsonString(infoParamDto, options);
-    return jsonToObjectMapping(json, new InfoResultDto());
+    return jsonToObjectMapping(json, new ItemInfoIncludeAttributeItemOptionsDto());
   }
 
   public List<ServerListResultDto> getServerListToObject(Map<String, String> options) {
     String json = apiCallOfGetToJsonString(new NoParamDto(), options);
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     List<ServerListResultDto> list = mapper.convertValue(jsonToObjectMapping(json, new ArrayList<>()), new TypeReference<List<ServerListResultDto>>() {
     });
     return list;
@@ -122,7 +123,7 @@ public class NCApiRepositoryImpl implements NCApiRepository {
    * @return Mapped Object
    */
   public static <T> T jsonToObjectMapping(String json, T target) {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     T result = null;
     try {
       result = (T) mapper.readValue(json, target.getClass());

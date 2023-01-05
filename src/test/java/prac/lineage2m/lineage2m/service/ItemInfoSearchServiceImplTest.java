@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import prac.lineage2m.lineage2m.dto.ItemInfoIncludeAttributeItemOptionsDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
 import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
@@ -33,7 +34,7 @@ class ItemInfoSearchServiceImplTest {
             .build();
 
     //when
-    InfoResultDto result = itemInfoSearchService.getItemInfoToObject(infoParamDto);
+    ItemInfoIncludeAttributeItemOptionsDto result = itemInfoSearchService.getItemInfoToObject(infoParamDto);
 
     //then
     assertThat(result.getItemId()).isEqualTo(100630002L);
@@ -56,7 +57,7 @@ class ItemInfoSearchServiceImplTest {
             .build();
 
     //when
-    InfoResultDto result = itemInfoSearchService.getItemInfoToObject(infoParamDto);
+    ItemInfoIncludeAttributeItemOptionsDto result = itemInfoSearchService.getItemInfoToObject(infoParamDto);
 
     //then
     System.out.println("result = " + result);

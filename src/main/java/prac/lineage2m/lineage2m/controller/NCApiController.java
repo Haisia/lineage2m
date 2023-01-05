@@ -5,6 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
+import prac.lineage2m.lineage2m.dto.ItemInfoIncludeAttributeItemOptionsDto;
 import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListResultDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoResultDto;
@@ -41,7 +42,7 @@ public class NCApiController {
 
   // http://localhost:8080/market/items/100630002?enchant_level=5
   @GetMapping("/market/items/{item_id}")
-  public InfoResultDto itemInfoSearch(@ModelAttribute InfoParamDto infoParamDto, BindingResult bindingResult){
+  public ItemInfoIncludeAttributeItemOptionsDto itemInfoSearch(@ModelAttribute InfoParamDto infoParamDto, BindingResult bindingResult){
     return itemInfoSearchService.getItemInfoToObject(infoParamDto);
   }
 
