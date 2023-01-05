@@ -30,12 +30,17 @@ public class ItemOption {
   @Column(name = "description")
   private String description;
 
+  @ManyToOne
+  @JoinColumn(name = "item_info_pk")
+  private ItemInfo itemInfo;
+
   @Builder
-  public ItemOption(String optionName, String display, String extraDisplay, String description) {
+  public ItemOption(String optionName, String display, String extraDisplay, String description, ItemInfo itemInfo) {
     this.optionName = optionName;
     this.display = display;
     this.extraDisplay = extraDisplay;
     this.description = description;
+    this.itemInfo = itemInfo;
   }
 
   public ItemOption() {
