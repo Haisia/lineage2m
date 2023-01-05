@@ -7,8 +7,8 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 public class PriceMinDto {
-  private Long server_id;
-  private String server_name;
+  private Long serverId;
+  private String serverName;
   private boolean world;
-  private Long unit_price;
+  private Long unitPrice;
 }

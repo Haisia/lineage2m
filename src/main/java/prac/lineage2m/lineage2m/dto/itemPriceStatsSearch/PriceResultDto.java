@@ -7,9 +7,9 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 public class PriceResultDto {
-  private Long item_id;
-  private Long server_id;
-  private Long enchant_level;
+  private Long itemId;
+  private Long serverId;
+  private Long enchantLevel;
   private PriceLastDto last;
   private PriceNowDto now;
   private PriceMinDto min;

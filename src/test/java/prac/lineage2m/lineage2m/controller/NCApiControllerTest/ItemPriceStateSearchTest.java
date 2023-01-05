@@ -39,7 +39,7 @@ class ItemPriceStateSearchTest {
     mockMvc.perform(requestBuilder)
             .andExpect(status().isOk())
             .andExpect(header().string("Content-Type", "application/json"))
-            .andExpect(jsonPath("$.server_id").isNotEmpty())
+            .andExpect(jsonPath("$.serverId").isNotEmpty())
             .andExpect(jsonPath("$.last").isNotEmpty())
             .andExpect(jsonPath("$.now").isNotEmpty())
             .andExpect(jsonPath("$.min").isNotEmpty())
@@ -52,18 +52,20 @@ class ItemPriceStateSearchTest {
   @DisplayName("검색결과가 없는 조건을 조건으로 걸고 API를 콜했기 때문에 결과가 무조건 없어야 한다.")
   public void 검색결과가_무조건_없어야_하는_테스트_itemPriceStatsSearch() throws Exception {
     //given
-    String item_id = "100630002999";
+    String itemId = "100630002999";
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders
-            .get("/market/items/" + item_id + "/price?")
+            .get("/market/items/" + itemId + "/price?")
             .param("server_id", "1111")
             .param("enchant_level", "0");
+
+    System.out.println("itemId = " + itemId);
 
     //expect
     mockMvc.perform(requestBuilder)
             .andExpect(status().isOk())
             .andExpect(header().string("Content-Type", "application/json"))
-            .andExpect(jsonPath("$.server_id").isEmpty())
+            .andExpect(jsonPath("$.serverId").isEmpty())
             .andExpect(jsonPath("$.last").isEmpty())
             .andExpect(jsonPath("$.now").isEmpty())
             .andExpect(jsonPath("$.min").isEmpty())

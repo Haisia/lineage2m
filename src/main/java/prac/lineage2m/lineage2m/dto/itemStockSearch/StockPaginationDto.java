@@ -9,6 +9,6 @@ import lombok.ToString;
 public class StockPaginationDto {
   private Long page;
   private Long size;
-  private Long last_page;
+  private Long lastPage;
   private Long total;
 }

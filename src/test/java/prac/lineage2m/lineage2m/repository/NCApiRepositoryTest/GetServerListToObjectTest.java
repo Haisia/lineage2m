@@ -42,14 +42,14 @@ public class GetServerListToObjectTest {
     //then
     ServerListResultDto serverListResultDto = resultList.get(0);
     System.out.println("serverListResultDto = " + serverListResultDto);
-    assertThat(resultList.get(0).getWorld_id()).isEqualTo(1001);
-    assertThat(resultList.get(0).getWorld_name()).isEqualTo("바츠");
-    assertThat(resultList.get(0).getServers().get(0).getServer_name()).isEqualTo("바츠01");
-    assertThat(resultList.get(0).getServers().get(9).getServer_name()).isEqualTo("바츠10");
+    assertThat(resultList.get(0).getWorldId()).isEqualTo(1001);
+    assertThat(resultList.get(0).getWorldName()).isEqualTo("바츠");
+    assertThat(resultList.get(0).getServers().get(0).getServerName()).isEqualTo("바츠01");
+    assertThat(resultList.get(0).getServers().get(9).getServerName()).isEqualTo("바츠10");
 
-    assertThat(resultList.get(14).getWorld_id()).isEqualTo(1141);
-    assertThat(resultList.get(14).getWorld_name()).isEqualTo("안타라스");
-    assertThat(resultList.get(14).getServers().get(9).getServer_name()).isEqualTo("안타라스10");
+    assertThat(resultList.get(14).getWorldId()).isEqualTo(1141);
+    assertThat(resultList.get(14).getWorldName()).isEqualTo("안타라스");
+    assertThat(resultList.get(14).getServers().get(9).getServerName()).isEqualTo("안타라스10");
   }
 
   @Autowired

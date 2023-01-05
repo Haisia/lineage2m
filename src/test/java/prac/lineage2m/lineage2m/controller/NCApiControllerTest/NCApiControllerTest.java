@@ -47,7 +47,7 @@ class NCApiControllerTest {
         result.andExpect(jsonPath("$.contents").isEmpty())
                 .andDo(print());
       } catch (AssertionError e) {
-        result.andExpect(jsonPath("$.contents[0].item_name", Matchers.containsString(item.get("search_keyword"))))
+        result.andExpect(jsonPath("$.contents[0].itemName", Matchers.containsString(item.get("search_keyword"))))
                 .andDo(print());
       }
     }
@@ -102,7 +102,7 @@ class NCApiControllerTest {
     mockMvc.perform(requestBuilder)
             .andExpect(status().isOk())
             .andExpect(header().string("Content-Type", "application/json"))
-            .andExpect(jsonPath("$.server_id").isNotEmpty())
+            .andExpect(jsonPath("$.serverId").isNotEmpty())
             .andExpect(jsonPath("$.last").isNotEmpty())
             .andExpect(jsonPath("$.now").isNotEmpty())
             .andExpect(jsonPath("$.min").isNotEmpty())
@@ -126,7 +126,7 @@ class NCApiControllerTest {
     mockMvc.perform(requestBuilder)
             .andExpect(status().isOk())
             .andExpect(header().string("Content-Type", "application/json"))
-            .andExpect(jsonPath("$.server_id").isEmpty())
+            .andExpect(jsonPath("$.serverId").isEmpty())
             .andExpect(jsonPath("$.last").isEmpty())
             .andExpect(jsonPath("$.now").isEmpty())
             .andExpect(jsonPath("$.min").isEmpty())

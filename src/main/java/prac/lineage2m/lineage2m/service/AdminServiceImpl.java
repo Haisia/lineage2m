@@ -70,12 +70,12 @@ public class AdminServiceImpl implements AdminService{
 
   private static void dtoSeparateToWorldAndServerList(List<ServerListResultDto> worldListOfDto, List<World> worldList, List<Server> serverList) {
     for (ServerListResultDto worldDto : worldListOfDto) {
-      World world = new World(worldDto.getWorld_id(), worldDto.getWorld_name());
+      World world = new World(worldDto.getWorldId(), worldDto.getWorldName());
       worldList.add(world);
 
       List<ServerListServerDto> serverListOfDto = worldDto.getServers();
       for (ServerListServerDto serverDto : serverListOfDto) {
-        Server server = new Server(serverDto.getServer_id(),serverDto.getServer_name());
+        Server server = new Server(serverDto.getServerId(),serverDto.getServerName());
         serverList.add(server);
       }
     }
