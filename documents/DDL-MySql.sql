@@ -18,12 +18,36 @@ create table if not exists item_info
     grade_name          varchar(10)   not null comment '아이템 등급 이름',
     image               text          null,
     trade_category_name varchar(50)   not null comment '거래소 카테고리 이름',
-    constraint item_id
-        unique (item_id),
     constraint pk
         unique (pk)
 )
     comment '아이템 스펙관련 정보';
+
+create table if not exists attribute
+(
+    pk                 int auto_increment
+        primary key,
+    droppable          tinyint(1) default 0 not null comment '사망 시 드랍 여부',
+    tradeable          tinyint(1) default 0 not null comment '거래 가능 여부',
+    collection_count   int        default 0 not null comment '컬렉션 수',
+    weight             int        default 0 not null comment '무게',
+    description        varchar(50)          null comment '설명',
+    storable           tinyint(1) default 0 not null comment '창고 저장 가능 여부
+',
+    safe_enchant_level int        default 0 not null comment '안전강화 단계',
+    material_name      varchar(50)          null,
+    enchantable        tinyint(1) default 0 not null comment '강화 가능 여부',
+    item_info_pk       int                  not null,
+    constraint item_pk
+        unique (item_info_pk),
+    constraint item_pk_2
+        unique (item_info_pk),
+    constraint pk
+        unique (pk),
+    constraint attribute_item_info_pk_fk
+        foreign key (item_info_pk) references item_info (pk)
+)
+    comment '아이템 속성';
 
 create table if not exists item_option
 (
@@ -33,26 +57,13 @@ create table if not exists item_option
     display       varchar(50) null comment '옵션의 수치',
     extra_display varchar(50) null comment '추가옵션',
     description   varchar(50) null comment '옵션설명',
-    constraint pk
-        unique (pk)
-)
-    comment '아이템의 성능관련 정보들';
-
-create table if not exists item_info_option_map
-(
-    pk             int auto_increment
-        primary key,
-    item_info_pk   int not null,
-    item_option_pk int not null,
+    item_info_pk  int         null,
     constraint pk
         unique (pk),
-    constraint item_info_fk
-        foreign key (item_info_pk) references item_info (pk),
-    constraint item_option_fk
-        foreign key (item_option_pk) references item_option (pk)
+    constraint item_option_item_info_pk_fk
+        foreign key (item_info_pk) references item_info (pk)
 )
-    comment 'item_info, item_option 의 n:m 관계를
-1:n - 1:m 관계로 매핑해주는 테이블';
+    comment '아이템의 성능관련 정보들';
 
 create table if not exists world
 (
