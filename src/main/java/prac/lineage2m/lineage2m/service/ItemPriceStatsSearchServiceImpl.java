@@ -25,7 +25,7 @@ public class ItemPriceStatsSearchServiceImpl implements ItemPriceStatsSearchServ
     String newBaseUrl = baseUrl + priceParamDto.getItem_id() + "/price?";
     PriceParamForRepositoryDto priceParamForRepositoryDto = new PriceParamForRepositoryDto(priceParamDto.getServer_id(), priceParamDto.getEnchant_level());
     List<String> keyList = apiKeyRepository.findAll();
-    String key = GlobalUtil.keyMaker(keyList.get(0));
+    String key = GlobalUtil.keyMaker(keyList.get(1));
 
     Map<String, String> options = new HashMap<>() {
       {

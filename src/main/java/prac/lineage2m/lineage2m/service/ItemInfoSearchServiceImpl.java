@@ -44,7 +44,7 @@ public class ItemInfoSearchServiceImpl implements ItemInfoSearchService {
     String newBaseUrl = baseUrl + infoParamDto.getItem_id() + "/?";
     InfoParamForRepositoryDto infoParamForRepositoryDto = new InfoParamForRepositoryDto(infoParamDto.getEnchant_level());
     List<String> keyList = apiKeyRepository.findAll();
-    String key = GlobalUtil.keyMaker(keyList.get(0));
+    String key = GlobalUtil.keyMaker(keyList.get(1));
 
     Map<String, String> options = new HashMap<>() {
       {

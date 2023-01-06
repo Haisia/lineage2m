@@ -29,7 +29,7 @@ public class ItemStockSearchServiceImpl implements ItemStockSearchService {
     stockParamDto.setSearch_keyword(URLEncoder.encode(stockParamDto.getSearch_keyword(), StandardCharsets.UTF_8));
 
     // TODO : 임시로 첫번째 키 사용하는데 나중에 상황에 맞춰서 사용할 키값을 자동으로 선택하도록 바꾸자
-    String key = GlobalUtil.keyMaker(keyList.get(0));
+    String key = GlobalUtil.keyMaker(keyList.get(1));
 
     Map<String, String> options = new HashMap<>() {
       {

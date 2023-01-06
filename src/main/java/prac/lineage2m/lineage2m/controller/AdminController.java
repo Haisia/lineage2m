@@ -20,8 +20,14 @@ public class AdminController {
   private final AdminService adminService;
 
   @GetMapping("/update/serverlist")
-  public String saveServerAndWorldList(){
+  public String updateServerAndWorldList(){
     if(adminService.saveWorldAndServerList()) return "ok";
     return "no";
+  }
+
+  @GetMapping("/update/itemList")
+  public String updateItemList(){
+    if(adminService.updateItemList()) return "아이템 리스트 업데이트 성공";
+    else return "에러";
   }
 }

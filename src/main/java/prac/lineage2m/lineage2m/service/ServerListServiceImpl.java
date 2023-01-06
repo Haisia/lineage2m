@@ -20,7 +20,7 @@ public class ServerListServiceImpl implements ServerListService{
 
   public List<ServerListResultDto> getServerListToObject() {
     List<String> keyList = apiKeyRepository.findAll();
-    String key = GlobalUtil.keyMaker(keyList.get(0));
+    String key = GlobalUtil.keyMaker(keyList.get(1));
     String newBaseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/servers";
 
     Map<String, String> options = new HashMap<>() {
