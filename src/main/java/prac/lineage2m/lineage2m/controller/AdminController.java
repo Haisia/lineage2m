@@ -30,4 +30,11 @@ public class AdminController {
     if(adminService.updateItemList()) return "아이템 리스트 업데이트 성공";
     else return "에러";
   }
+
+  @GetMapping("/update/itemListByItemId")
+  public String updateItemListByItemId(){
+    if(adminService.updateItemListByItemId()) return "아이템 리스트 업데이트 성공";
+    else return "에러";
+  }
+
 }

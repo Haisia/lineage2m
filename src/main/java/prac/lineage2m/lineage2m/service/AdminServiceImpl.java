@@ -76,8 +76,23 @@ public class AdminServiceImpl implements AdminService {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+    return true;
+  }
 
-
+  public boolean updateItemListByItemId(){
+    try {
+      BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ishift\\Desktop\\lineage2m\\documents\\ItemId.csv", StandardCharsets.UTF_8));
+      String itemIdStr;
+      while ((itemIdStr = br.readLine()) != null) {
+        String[] split = itemIdStr.split(",");
+        Long itemId = Long.parseLong(split[0]);
+        for (int i = 0; i <= MAX_ENCHANT_LEVEL; i++) {
+          itemInfoSearchService.getItemInfoToObject(InfoParamDto.builder().item_id(itemId).enchant_level((long) i).build());
+        }
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     return true;
   }
 
