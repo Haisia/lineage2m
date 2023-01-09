@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 import prac.lineage2m.lineage2m.dto.ItemInfoIncludeAttributeItemOptionsDto;
 import prac.lineage2m.lineage2m.entity.*;
 
+import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static prac.lineage2m.lineage2m.entity.QAttribute.*;
+import static prac.lineage2m.lineage2m.entity.QEnchantLevel.enchantLevel1;
 import static prac.lineage2m.lineage2m.entity.QItemInfo.*;
 import static prac.lineage2m.lineage2m.entity.QItemOption.*;
 
@@ -18,6 +21,7 @@ import static prac.lineage2m.lineage2m.entity.QItemOption.*;
 @RequiredArgsConstructor
 public class ItemInfoRepositoryCustomImpl implements ItemInfoRepositoryCustom {
   private final JPAQueryFactory jpaQueryFactory;
+  private final EntityManager em;
 
   public ItemInfoIncludeAttributeItemOptionsDto findByIdAndEnchantLevel(Long itemId, Long enchantLevel) {
     BooleanBuilder builder = getBooleanBuilderByItemIdAndEnchantLevel(itemId, enchantLevel);
@@ -30,18 +34,34 @@ public class ItemInfoRepositoryCustomImpl implements ItemInfoRepositoryCustom {
     return result;
   }
 
+  public Optional<ItemInfo> findByItemId(Long itemId) {
+    String jpql = "select m from ItemInfo m where m.itemId = :itemId";
+
+    List<ItemInfo> list = em.createQuery(jpql, ItemInfo.class)
+            .setParameter("itemId", itemId)
+            .getResultList();
+
+    return list.size() != 0 ? Optional.ofNullable(list.get(0)) : Optional.empty();
+  }
+
   private static BooleanBuilder getBooleanBuilderByItemIdAndEnchantLevel(Long itemId, Long enchantLevel) {
     BooleanBuilder builder = new BooleanBuilder();
 
     builder.and(itemInfo.itemId.eq(itemId));
-    builder.and(itemInfo.enchantLevel.eq(enchantLevel));
+    builder.and(enchantLevel1.enchantLevel.eq(enchantLevel));
     return builder;
   }
 
+  /**
+   * itemId, enchantLevel 로 option 찾기
+   * @param builder
+   * @return
+   */
   private List<ItemOption> getOptions(BooleanBuilder builder) {
     List<ItemOption> itemOptionList = jpaQueryFactory.select(itemOption)
             .from(itemOption)
-            .join(itemInfo).on(itemOption.itemInfo.pk.eq(itemInfo.pk))
+            .join(enchantLevel1).on(itemOption.enchantLevel.pk.eq(enchantLevel1.pk))
+            .join(itemInfo).on(enchantLevel1.itemInfo.pk.eq(itemInfo.pk))
             .join(attribute).on(itemInfo.pk.eq(attribute.itemInfo.pk))
             .where(builder)
             .fetch();
@@ -55,10 +75,10 @@ public class ItemInfoRepositoryCustomImpl implements ItemInfoRepositoryCustom {
    * @return options 가 포함되지 않은 ItemInfoIncludeAttributeItemOptionsDto
    */
   private ItemInfoIncludeAttributeItemOptionsDto getItemInfoAndAttribute(BooleanBuilder builder) {
-      ItemInfoIncludeAttributeItemOptionsDto result = jpaQueryFactory.select(Projections.constructor(ItemInfoIncludeAttributeItemOptionsDto.class, itemInfo, attribute))
+      ItemInfoIncludeAttributeItemOptionsDto result = jpaQueryFactory.select(Projections.constructor(ItemInfoIncludeAttributeItemOptionsDto.class, itemInfo, attribute, enchantLevel1))
               .from(itemInfo)
-              .join(itemOption)
-              .on(itemInfo.pk.eq(itemOption.itemInfo.pk))
+              .join(enchantLevel1)
+              .on(itemInfo.pk.eq(enchantLevel1.itemInfo.pk))
               .join(attribute)
               .on(itemInfo.pk.eq(attribute.itemInfo.pk))
               .where(builder)

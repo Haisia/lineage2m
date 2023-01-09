@@ -6,9 +6,11 @@ import prac.lineage2m.lineage2m.dto.ItemInfoIncludeAttributeItemOptionsDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;
 import prac.lineage2m.lineage2m.entity.Attribute;
+import prac.lineage2m.lineage2m.entity.EnchantLevel;
 import prac.lineage2m.lineage2m.entity.ItemInfo;
 import prac.lineage2m.lineage2m.entity.ItemOption;
 import prac.lineage2m.lineage2m.repository.AttributeRepository;
+import prac.lineage2m.lineage2m.repository.EnchantLevelRepository;
 import prac.lineage2m.lineage2m.repository.ItemInfoRepository;
 import prac.lineage2m.lineage2m.repository.ItemOptionRepository;
 import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
@@ -18,6 +20,7 @@ import prac.lineage2m.lineage2m.util.GlobalUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * TODO:
@@ -35,21 +38,21 @@ public class ItemInfoSearchServiceImpl implements ItemInfoSearchService {
   private final ItemInfoRepository itemInfoRepository;
   private final AttributeRepository attributeRepository;
   private final ItemOptionRepository itemOptionRepository;
+  private final EnchantLevelRepository enchantLevelRepository;
+  private final String apiKey;
   private static String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/";
 
   public ItemInfoIncludeAttributeItemOptionsDto getItemInfoToObject(InfoParamDto infoParamDto) {
     ItemInfoIncludeAttributeItemOptionsDto findAtDb = itemInfoRepository.findByIdAndEnchantLevel(infoParamDto.getItem_id(), infoParamDto.getEnchant_level());
-    if (findAtDb.getItemId()!=0L) return findAtDb;
+    if (findAtDb.getItemId() != 0L) return findAtDb;
 
     String newBaseUrl = baseUrl + infoParamDto.getItem_id() + "/?";
     InfoParamForRepositoryDto infoParamForRepositoryDto = new InfoParamForRepositoryDto(infoParamDto.getEnchant_level());
-    List<String> keyList = apiKeyRepository.findAll();
-    String key = GlobalUtil.keyMaker(keyList.get(1));
 
     Map<String, String> options = new HashMap<>() {
       {
         put("baseUrl", newBaseUrl);
-        put("Authorization", key);
+        put("Authorization", apiKey);
       }
     };
 
@@ -60,19 +63,36 @@ public class ItemInfoSearchServiceImpl implements ItemInfoSearchService {
     return itemInfoDto;
   }
 
-  public void insertItemInfoAttributeAndOptions(ItemInfoIncludeAttributeItemOptionsDto itemInfoDto){
-    if(itemInfoDto.getItemId()==0) return;
+  public void insertItemInfoAttributeAndOptions(ItemInfoIncludeAttributeItemOptionsDto itemInfoDto) {
+    if (itemInfoDto.getItemId() == 0) return;
 
-    ItemInfo itemInfo = GlobalUtil.convertObjectBySameField(itemInfoDto, new ItemInfo());
+    Optional<ItemInfo> itemInfoOptional = itemInfoRepository.findByItemId(itemInfoDto.getItemId());
+    ItemInfo itemInfo;
     Attribute attribute = itemInfoDto.getAttribute();
     List<ItemOption> options = itemInfoDto.getOptions();
 
-    itemInfo = itemInfoRepository.save(itemInfo);
+    if(itemInfoOptional.isEmpty()) {
+      itemInfo = itemInfoRepository.save(GlobalUtil.convertObjectBySameField(itemInfoDto, new ItemInfo()));
+    }else {
+      itemInfo = itemInfoOptional.get();
+    }
+
+
     attribute.setItemInfo(itemInfo);
     for (ItemOption option : options) {
-      option.setItemInfo(itemInfo);
+      Long elCond = itemInfoDto.getEnchantLevel();
+      Long iipkCond = itemInfo.getPk();
+      Optional<EnchantLevel> findEnchantLevel = enchantLevelRepository.findByEnchantLevelAndItemInfoPk(elCond, iipkCond);
+      if (elCond!=null && iipkCond!=null && findEnchantLevel.isEmpty()){
+        EnchantLevel enchantLevel = EnchantLevel.builder()
+                .enchantLevel(itemInfoDto.getEnchantLevel())
+                .itemInfo(itemInfo).build();
+        option.setEnchantLevel(enchantLevelRepository.save(enchantLevel));
+      }else {
+        option.setEnchantLevel(findEnchantLevel.get());
+      }
     }
-    attributeRepository.save(attribute);
+    if (attributeRepository.findByItemInfoPk(attribute.getItemInfo().getPk()).isEmpty()) attributeRepository.save(attribute);
     itemOptionRepository.saveAllAndFlush(options);
   }
 
