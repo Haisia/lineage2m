@@ -2,6 +2,7 @@ package prac.lineage2m.lineage2m.dto;
 
 import lombok.*;
 import prac.lineage2m.lineage2m.entity.Attribute;
+import prac.lineage2m.lineage2m.entity.EnchantLevel;
 import prac.lineage2m.lineage2m.entity.ItemInfo;
 import prac.lineage2m.lineage2m.entity.ItemOption;
 
@@ -27,21 +28,20 @@ public class ItemInfoIncludeAttributeItemOptionsDto {
     this.itemId = itemId;
   }
 
-  public ItemInfoIncludeAttributeItemOptionsDto(ItemInfo itemInfo, Attribute attribute){
+  public ItemInfoIncludeAttributeItemOptionsDto(ItemInfo itemInfo, Attribute attribute, EnchantLevel enchantLevel){
     this.itemId = itemInfo.getItemId();
     this.itemName = itemInfo.getItemName();
-    this.enchantLevel = itemInfo.getEnchantLevel();
     this.grade = itemInfo.getGrade();
     this.gradeName = itemInfo.getGradeName();
     this.image = itemInfo.getImage();
     this.tradeCategoryName = itemInfo.getTradeCategoryName();
     this.attribute = attribute;
+    this.enchantLevel = enchantLevel.getEnchantLevel();
   }
 
   public ItemInfoIncludeAttributeItemOptionsDto(ItemInfo itemInfo, Attribute attribute, List<ItemOption> options){
     this.itemId = itemInfo.getItemId();
     this.itemName = itemInfo.getItemName();
-    this.enchantLevel = itemInfo.getEnchantLevel();
     this.grade = itemInfo.getGrade();
     this.gradeName = itemInfo.getGradeName();
     this.image = itemInfo.getImage();

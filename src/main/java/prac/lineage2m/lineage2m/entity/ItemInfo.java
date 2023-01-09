@@ -25,9 +25,6 @@ public class ItemInfo {
   @Column(name = "item_name")
   private String itemName;
 
-  @Column(name = "enchant_level")
-  private Long enchantLevel;
-
   @Column(name = "grade")
   private String grade;
 
@@ -41,10 +38,9 @@ public class ItemInfo {
   private String tradeCategoryName;
 
   @Builder
-  public ItemInfo(Long itemId, String itemName, Long enchantLevel, String grade, String gradeName, String image, String tradeCategoryName) {
+  public ItemInfo(Long itemId, String itemName, String grade, String gradeName, String image, String tradeCategoryName) {
     this.itemId = itemId;
     this.itemName = itemName;
-    this.enchantLevel = enchantLevel;
     this.grade = grade;
     this.gradeName = gradeName;
     this.image = image;

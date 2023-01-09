@@ -31,16 +31,15 @@ public class ItemOption {
   private String description;
 
   @ManyToOne
-  @JoinColumn(name = "item_info_pk")
-  private ItemInfo itemInfo;
+  @JoinColumn(name = "enchant_level_pk")
+  private EnchantLevel enchantLevel;
 
   @Builder
-  public ItemOption(String optionName, String display, String extraDisplay, String description, ItemInfo itemInfo) {
+  public ItemOption(String optionName, String display, String extraDisplay, String description) {
     this.optionName = optionName;
     this.display = display;
     this.extraDisplay = extraDisplay;
     this.description = description;
-    this.itemInfo = itemInfo;
   }
 
   public ItemOption() {
