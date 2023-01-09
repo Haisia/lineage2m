@@ -1,5 +1,6 @@
 package prac.lineage2m.lineage2m.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ class ItemInfoSearchServiceImplTest {
     ItemInfoIncludeAttributeItemOptionsDto result = itemInfoSearchService.getItemInfoToObject(infoParamDto);
 
     //then
-    System.out.println("result = " + result);
+
     assertThat(result.getItemId()).isEqualTo(0L);  // 검색결과가 없으면 item_id 가 기본값인 0으로 반환됨
     assertThat(result.getItemName()).isNull();
     assertThat(result.getEnchantLevel()).isEqualTo(0L);

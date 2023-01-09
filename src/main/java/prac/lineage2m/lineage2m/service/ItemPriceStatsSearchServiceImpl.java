@@ -19,18 +19,17 @@ public class ItemPriceStatsSearchServiceImpl implements ItemPriceStatsSearchServ
   private final ApiKeyRepository apiKeyRepository;
   private final NCApiRepository NCApiRepository;
   private static String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/";
+  private final String apiKey;
 
 
   public PriceResultDto getItemPriceStatsToObject(PriceParamDto priceParamDto) {
     String newBaseUrl = baseUrl + priceParamDto.getItem_id() + "/price?";
     PriceParamForRepositoryDto priceParamForRepositoryDto = new PriceParamForRepositoryDto(priceParamDto.getServer_id(), priceParamDto.getEnchant_level());
-    List<String> keyList = apiKeyRepository.findAll();
-    String key = GlobalUtil.keyMaker(keyList.get(1));
 
     Map<String, String> options = new HashMap<>() {
       {
         put("baseUrl", newBaseUrl);
-        put("Authorization", key);
+        put("Authorization", apiKey);
       }
     };
 

@@ -16,17 +16,16 @@ import java.util.Map;
 public class ServerListServiceImpl implements ServerListService{
   private final NCApiRepository ncApiRepository;
   private final ApiKeyRepository apiKeyRepository;
+  private final String apiKey;
 
 
   public List<ServerListResultDto> getServerListToObject() {
-    List<String> keyList = apiKeyRepository.findAll();
-    String key = GlobalUtil.keyMaker(keyList.get(1));
     String newBaseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/servers";
 
     Map<String, String> options = new HashMap<>() {
       {
         put("baseUrl", newBaseUrl);
-        put("Authorization", key);
+        put("Authorization", apiKey);
       }
     };
     return ncApiRepository.getServerListToObject(options);

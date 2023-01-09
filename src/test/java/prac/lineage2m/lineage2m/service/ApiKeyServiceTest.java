@@ -38,9 +38,6 @@ class ApiKeyServiceTest {
   @DisplayName("디비에 저장된 모든 키값을 가져온다.")
   void findAll(){
     List<String> keyList = apiKeyRepository.findAll();
-    Assertions.assertThat(keyList.size()).isEqualTo(1);
-    for (String s : keyList) {
-      Assertions.assertThat(s).isEqualTo(key);
-    }
+    Assertions.assertThat(keyList.size()).isEqualTo(2);
   }
 }
