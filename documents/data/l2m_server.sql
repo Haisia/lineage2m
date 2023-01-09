@@ -16,6 +16,25 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `server`
+--
+
+DROP TABLE IF EXISTS `server`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `server` (
+  `pk` int NOT NULL AUTO_INCREMENT,
+  `server_id` int NOT NULL,
+  `server_name` varchar(10) NOT NULL,
+  `world_pk` int NOT NULL,
+  PRIMARY KEY (`pk`),
+  UNIQUE KEY `pk` (`pk`),
+  KEY `worldFk` (`world_pk`),
+  CONSTRAINT `worldFk` FOREIGN KEY (`world_pk`) REFERENCES `world` (`pk`)
+) ENGINE=InnoDB AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='서버목록';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `server`
 --
 
@@ -34,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-06 16:30:09
+-- Dump completed on 2023-01-09 16:12:36

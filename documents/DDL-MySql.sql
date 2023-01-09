@@ -1,4 +1,4 @@
-create table if not exists api_key
+create table api_key
 (
     pk    int auto_increment
         primary key,
@@ -7,23 +7,24 @@ create table if not exists api_key
         unique (pk)
 );
 
-create table if not exists item_info
+create table item_info
 (
     pk                  int auto_increment
         primary key,
-    item_id             int           not null comment '아이템 아이디',
-    item_name           varchar(50)   not null comment '아이템 이름',
-    enchant_level       int default 0 not null comment '아이템 강화 수치',
-    grade               varchar(10)   not null comment '아이템 등급',
-    grade_name          varchar(10)   not null comment '아이템 등급 이름',
-    image               text          null,
-    trade_category_name varchar(50)   not null comment '거래소 카테고리 이름',
+    item_id             int         not null comment '아이템 아이디',
+    item_name           varchar(50) not null comment '아이템 이름',
+    grade               varchar(10) not null comment '아이템 등급',
+    grade_name          varchar(10) not null comment '아이템 등급 이름',
+    image               text        null,
+    trade_category_name varchar(50) not null comment '거래소 카테고리 이름',
+    constraint item_id
+        unique (item_id),
     constraint pk
         unique (pk)
 )
     comment '아이템 스펙관련 정보';
 
-create table if not exists attribute
+create table attribute
 (
     pk                 int auto_increment
         primary key,
@@ -31,7 +32,7 @@ create table if not exists attribute
     tradeable          tinyint(1) default 0 not null comment '거래 가능 여부',
     collection_count   int        default 0 not null comment '컬렉션 수',
     weight             int        default 0 not null comment '무게',
-    description        varchar(50)          null comment '설명',
+    description        text                 null comment '설명',
     storable           tinyint(1) default 0 not null comment '창고 저장 가능 여부
 ',
     safe_enchant_level int        default 0 not null comment '안전강화 단계',
@@ -49,23 +50,35 @@ create table if not exists attribute
 )
     comment '아이템 속성';
 
-create table if not exists item_option
+create table enchant_level
 (
     pk            int auto_increment
         primary key,
-    option_name   varchar(50) not null comment '옵션의 이름',
-    display       varchar(50) null comment '옵션의 수치',
-    extra_display varchar(50) null comment '추가옵션',
-    description   varchar(50) null comment '옵션설명',
-    item_info_pk  int         null,
+    enchant_level int default 0 not null comment '인첸트 레벨',
+    item_info_pk  int           not null,
     constraint pk
         unique (pk),
-    constraint item_option_item_info_pk_fk
+    constraint enchant_level_item_info_pk_fk
         foreign key (item_info_pk) references item_info (pk)
+)
+    comment '아이템 인첸트 레벨별로 옵션 매핑을 제공하는 테이블';
+
+create table item_option
+(
+    pk               int auto_increment,
+    option_name      varchar(50) not null comment '옵션의 이름',
+    display          varchar(50) null comment '옵션의 수치',
+    extra_display    varchar(50) null comment '추가옵션',
+    description      text        null comment '옵션설명',
+    enchant_level_pk int         not null,
+    constraint item_option_pk
+        unique (pk),
+    constraint item_option_enchant_level_pk_fk
+        foreign key (enchant_level_pk) references enchant_level (pk)
 )
     comment '아이템의 성능관련 정보들';
 
-create table if not exists world
+create table world
 (
     pk         int auto_increment
         primary key,
@@ -78,7 +91,7 @@ create table if not exists world
 )
     comment '월드목록';
 
-create table if not exists server
+create table server
 (
     pk          int auto_increment
         primary key,
