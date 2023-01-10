@@ -1,5 +1,9 @@
 package prac.lineage2m.lineage2m.util;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.StringPath;
+
 import java.lang.reflect.Field;
 
 public class GlobalUtil {
@@ -34,6 +38,23 @@ public class GlobalUtil {
       }
     }
     return result;
+  }
+
+  /**
+   * BooleanBuilder 의 조건값이 null 이면 무시되는 특성을 이용함.
+   */
+  public static BooleanExpression queryDslCondMaker(StringPath stringPath, String cond) {
+    if (stringPath != null && cond != null && !cond.equals("")) {
+      return stringPath.eq(cond);
+    }
+    return null;
+  }
+
+  public static BooleanExpression queryDslCondMaker(NumberPath<Long> stringPath, Long cond) {
+    if (stringPath != null && cond != null) {
+      return stringPath.eq(cond);
+    }
+    return null;
   }
 
 }
