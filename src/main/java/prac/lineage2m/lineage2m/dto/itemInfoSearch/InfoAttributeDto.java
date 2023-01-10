@@ -7,13 +7,13 @@ import lombok.ToString;
 @Setter @Getter
 @ToString
 public class InfoAttributeDto {
-  private boolean droppable;
-  private boolean tradeable;
-  private Long collectionCount;
-  private Long weight;
-  private String description;
-  private boolean storable;
   private Long safeEnchantLevel;
-  private String materialName;
+  private boolean tradeable;
   private boolean enchantable;
+  private boolean droppable;
+  private boolean storable;
+  private String description;
+  private Long weight;
+  private String materialName;
+  private Long collectionCount;
 }

@@ -2,6 +2,7 @@ package prac.lineage2m.lineage2m.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import prac.lineage2m.lineage2m.service.ServerListService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000/")
 
 @RestController
 @RequiredArgsConstructor

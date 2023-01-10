@@ -1,25 +1,17 @@
 package prac.lineage2m.lineage2m.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.group.Group;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryCond;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryDto;
-import prac.lineage2m.lineage2m.dto.QItemDictionaryDto;
-import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoOptionsDto;
-import prac.lineage2m.lineage2m.entity.ItemInfo;
-import prac.lineage2m.lineage2m.entity.ItemOption;
-import prac.lineage2m.lineage2m.entity.QItemInfo;
+import prac.lineage2m.lineage2m.dto.PageRequest;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.set;
@@ -36,7 +28,7 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
   private final JPAQueryFactory jpaQueryFactory;
 
 
-  public List<ItemDictionaryDto> getItemListByCond(ItemDictionaryCond itemDictionaryCond){
+  public List<ItemDictionaryDto> getItemListByCond(ItemDictionaryCond itemDictionaryCond, Pageable pageable){
     BooleanBuilder cond = booleanBuilderMaker(itemDictionaryCond);
 
     return jpaQueryFactory
@@ -45,6 +37,8 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
             .join(enchantLevel1).on(enchantLevel1.itemInfo.pk.eq(itemInfo.pk))
             .join(itemOption).on(itemOption.enchantLevel.pk.eq(enchantLevel1.pk))
             .where(cond)
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
             .transform(groupBy(enchantLevel1.pk)
                     .list(Projections.constructor(ItemDictionaryDto.class,
                             itemInfo, attribute, enchantLevel1, GroupBy.set(itemOption))));
