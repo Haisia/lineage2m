@@ -43,6 +43,7 @@ public class NCApiController {
   // http://localhost:8080/market/items/100630002?enchant_level=5
   @GetMapping("/market/items/{item_id}")
   public ItemInfoIncludeAttributeItemOptionsDto itemInfoSearch(@ModelAttribute InfoParamDto infoParamDto, BindingResult bindingResult){
+    if(infoParamDto.getEnchant_level() == null) infoParamDto.setEnchant_level(0L);
     return itemInfoSearchService.getItemInfoToObject(infoParamDto);
   }
 
