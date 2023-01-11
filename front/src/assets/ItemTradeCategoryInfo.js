@@ -118,7 +118,7 @@ export default [
     id:1,
   },
   {
-    name: "암살 비금",
+    name: "암살 비급",
     id:1,
   },
   {

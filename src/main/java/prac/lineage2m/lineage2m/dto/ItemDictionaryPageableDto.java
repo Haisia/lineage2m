@@ -5,13 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
 @ToString
 @NoArgsConstructor
 public class ItemDictionaryPageableDto {
-  private List<ItemDictionaryDto> itemInfoList;
+  private List<ItemDictionaryDto> itemInfoList = new ArrayList<>();
   private Pagination pagination;
 
   public ItemDictionaryPageableDto(List<ItemDictionaryDto> itemInfoList, Pagination pagination) {

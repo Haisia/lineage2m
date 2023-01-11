@@ -20,9 +20,6 @@ public class Server {
   @Column(name = "server_name")
   private String serverName;
 
-//  @Column
-//  private Long worldPk;
-
   @ManyToOne
   @JoinColumn(name = "world_pk")
   private World world;
