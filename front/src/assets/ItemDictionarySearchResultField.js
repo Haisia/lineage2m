@@ -1,0 +1,22 @@
+export default [
+  {
+    name:"이름",
+    fieldName:"itemName",
+    urlOfSameEnchant:"",
+  },
+  {
+    name:"강화레벨",
+    fieldName:"enchantLevel",
+    urlOfSameEnchant:"",
+  },
+  {
+    name:"등급",
+    fieldName:"gradeName",
+    urlOfSameEnchant:"",
+  },
+  {
+    name:"카테고리",
+    fieldName:"tradeCategoryName",
+    urlOfSameEnchant:"",
+  },
+]
