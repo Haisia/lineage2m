@@ -28,6 +28,18 @@ public class ItemDictionaryDto {
   private InfoAttributeDto attribute;
   private List<InfoOptionsDto> itemOptions;
 
+  public ItemDictionaryDto(ItemInfo itemInfo, Attribute attribute, EnchantLevel enchantLevel){
+    this.setItemId(itemInfo.getItemId());
+    this.setItemName(itemInfo.getItemName());
+    this.setGrade(itemInfo.getGrade());
+    this.setGradeName(itemInfo.getGradeName());
+    this.setImage(itemInfo.getImage());
+    this.setTradeCategoryName(itemInfo.getTradeCategoryName());
+    this.attribute = GlobalUtil.convertObjectBySameField(attribute,new InfoAttributeDto());
+    this.setEnchantLevel(enchantLevel.getEnchantLevel());
+  }
+
+
   @QueryProjection
   public ItemDictionaryDto(ItemInfo itemInfo, Attribute attribute, EnchantLevel enchantLevel, Set<ItemOption> itemOptions) {
     this.setItemId(itemInfo.getItemId());

@@ -1,21 +1,22 @@
 package prac.lineage2m.lineage2m.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryCond;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryDto;
-import prac.lineage2m.lineage2m.dto.PageRequest;
+import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoOptionsDto;
+import prac.lineage2m.lineage2m.entity.ItemOption;
+import prac.lineage2m.lineage2m.util.GlobalUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.group.GroupBy.set;
-import static com.querydsl.core.types.Projections.list;
 import static prac.lineage2m.lineage2m.entity.QAttribute.*;
 import static prac.lineage2m.lineage2m.entity.QEnchantLevel.enchantLevel1;
 import static prac.lineage2m.lineage2m.entity.QItemInfo.itemInfo;
@@ -31,23 +32,47 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
   public List<ItemDictionaryDto> getItemListByCond(ItemDictionaryCond itemDictionaryCond, Pageable pageable){
     BooleanBuilder cond = booleanBuilderMaker(itemDictionaryCond);
 
-    return jpaQueryFactory
+    List<ItemDictionaryDto> itemInfoList = jpaQueryFactory.select(Projections.constructor(ItemDictionaryDto.class, itemInfo, attribute, enchantLevel1))
             .from(itemInfo)
             .join(attribute).on(attribute.itemInfo.pk.eq(itemInfo.pk))
             .join(enchantLevel1).on(enchantLevel1.itemInfo.pk.eq(itemInfo.pk))
             .join(itemOption).on(itemOption.enchantLevel.pk.eq(enchantLevel1.pk))
             .where(cond)
+            .distinct()
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
-            .transform(groupBy(enchantLevel1.pk)
-                    .list(Projections.constructor(ItemDictionaryDto.class,
-                            itemInfo, attribute, enchantLevel1, GroupBy.set(itemOption))));
+            .fetch();
+
+    for (ItemDictionaryDto itemInfoDto : itemInfoList) {
+      if(itemInfoDto.getEnchantLevel()!=null) {
+        BooleanBuilder itemOptionCond = new BooleanBuilder();
+        itemOptionCond.and(enchantLevel1.enchantLevel.eq(itemDictionaryCond.getEnchantLevel()));
+        itemOptionCond.and(itemInfo.itemId.eq(itemInfoDto.getItemId()));
+
+        List<ItemOption> findOptionList = jpaQueryFactory.select(itemOption)
+                .from(itemInfo)
+                .join(enchantLevel1).on(enchantLevel1.itemInfo.pk.eq(itemInfo.pk))
+                .join(itemOption).on(itemOption.enchantLevel.pk.eq(enchantLevel1.pk))
+                .where(itemOptionCond)
+                .fetch();
+
+        List<InfoOptionsDto> infoOptionsDto = new ArrayList<>();
+        for (ItemOption itemOption : findOptionList) {
+          infoOptionsDto.add(GlobalUtil.convertObjectBySameField(itemOption,new InfoOptionsDto()));
+        }
+        itemInfoDto.setItemOptions(infoOptionsDto);
+      }
+    }
+    return itemInfoList;
   }
 
   private static BooleanBuilder booleanBuilderMaker(ItemDictionaryCond itemDictionaryCond) {
     BooleanBuilder builder = new BooleanBuilder();
 
-    builder.and(itemInfo.itemName.like("%"+itemDictionaryCond.getItemName()+"%"));
+    if (itemDictionaryCond.getItemName() != null && !itemDictionaryCond.getItemName().equals("")){
+      StringExpression concat = Expressions.asString("%").concat(itemDictionaryCond.getItemName()).concat("%");
+      builder.and(itemInfo.itemName.like(concat));
+    }
     builder.and(queryDslCondMaker(itemInfo.grade, itemDictionaryCond.getGrade()));
     builder.and(queryDslCondMaker(itemInfo.tradeCategoryName,itemDictionaryCond.getTradeCategoryName()));
     builder.and(queryDslCondMaker(enchantLevel1.enchantLevel,itemDictionaryCond.getEnchantLevel()));

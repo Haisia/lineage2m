@@ -27,10 +27,7 @@ public class ItemDictionaryController {
   @GetMapping("/search")
   public List<ItemDictionaryDto> getItemListByCond(@ModelAttribute ItemDictionaryCond itemDictionaryCond, PageRequest pageRequest){
     if (itemDictionaryCond.getEnchantLevel() == null) itemDictionaryCond.setEnchantLevel(0L);
-//    if (paginationCond.getPage() == null) paginationCond.setPage(1L);
-//    if (paginationCond.getSize() == null) paginationCond.setSize(15L);
     Pageable pageable = pageRequest.of();
-    System.out.println("pageRequest = " + pageRequest.toString());
 
     return itemDictionaryService.getItemListByCond(itemDictionaryCond, pageable);
   }
