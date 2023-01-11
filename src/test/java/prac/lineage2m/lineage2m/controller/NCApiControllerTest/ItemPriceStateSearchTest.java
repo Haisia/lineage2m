@@ -59,7 +59,6 @@ class ItemPriceStateSearchTest {
             .param("server_id", "1111")
             .param("enchant_level", "0");
 
-    System.out.println("itemId = " + itemId);
 
     //expect
     mockMvc.perform(requestBuilder)

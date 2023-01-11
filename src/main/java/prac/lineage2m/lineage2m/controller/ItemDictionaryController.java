@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryCond;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryDto;
+import prac.lineage2m.lineage2m.dto.ItemDictionaryPageableDto;
 import prac.lineage2m.lineage2m.dto.PageRequest;
 import prac.lineage2m.lineage2m.service.ItemDictionaryService;
 
@@ -25,10 +26,9 @@ public class ItemDictionaryController {
 
   // http://localhost:8080/itemDictionary/search?
   @GetMapping("/search")
-  public List<ItemDictionaryDto> getItemListByCond(@ModelAttribute ItemDictionaryCond itemDictionaryCond, PageRequest pageRequest){
+  public ItemDictionaryPageableDto getItemListByCond(@ModelAttribute ItemDictionaryCond itemDictionaryCond, PageRequest pageRequest){
     if (itemDictionaryCond.getEnchantLevel() == null) itemDictionaryCond.setEnchantLevel(0L);
     Pageable pageable = pageRequest.of();
-
     return itemDictionaryService.getItemListByCond(itemDictionaryCond, pageable);
   }
 

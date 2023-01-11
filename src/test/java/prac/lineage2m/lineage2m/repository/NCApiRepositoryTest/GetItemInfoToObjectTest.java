@@ -74,7 +74,6 @@ public class GetItemInfoToObjectTest {
     ItemInfoIncludeAttributeItemOptionsDto result = ncApiRepository.getItemInfoToObject(param, options);
 
     //then
-    System.out.println("result = " + result);
     assertThat(result.getItemId()).isEqualTo(0L);  // 검색결과가 없으면 item_id 가 기본값인 0으로 반환됨
     assertThat(result.getItemName()).isNull();
     assertThat(result.getEnchantLevel()).isEqualTo(0L);

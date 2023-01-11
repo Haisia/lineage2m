@@ -1,6 +1,7 @@
 package prac.lineage2m.lineage2m.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryCond;
 import prac.lineage2m.lineage2m.dto.ItemDictionaryDto;
+import prac.lineage2m.lineage2m.dto.ItemDictionaryPageableDto;
+import prac.lineage2m.lineage2m.dto.Pagination;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoOptionsDto;
 import prac.lineage2m.lineage2m.entity.ItemOption;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
@@ -29,10 +32,10 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
   private final JPAQueryFactory jpaQueryFactory;
 
 
-  public List<ItemDictionaryDto> getItemListByCond(ItemDictionaryCond itemDictionaryCond, Pageable pageable){
+  public ItemDictionaryPageableDto getItemListByCond(ItemDictionaryCond itemDictionaryCond, Pageable pageable){
     BooleanBuilder cond = booleanBuilderMaker(itemDictionaryCond);
 
-    List<ItemDictionaryDto> itemInfoList = jpaQueryFactory.select(Projections.constructor(ItemDictionaryDto.class, itemInfo, attribute, enchantLevel1))
+    QueryResults<ItemDictionaryDto> infoQueryResults = jpaQueryFactory.select(Projections.constructor(ItemDictionaryDto.class, itemInfo, attribute, enchantLevel1))
             .from(itemInfo)
             .join(attribute).on(attribute.itemInfo.pk.eq(itemInfo.pk))
             .join(enchantLevel1).on(enchantLevel1.itemInfo.pk.eq(itemInfo.pk))
@@ -41,8 +44,9 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
             .distinct()
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
-            .fetch();
+            .fetchResults();
 
+    List<ItemDictionaryDto> itemInfoList = infoQueryResults.getResults();
     for (ItemDictionaryDto itemInfoDto : itemInfoList) {
       if(itemInfoDto.getEnchantLevel()!=null) {
         BooleanBuilder itemOptionCond = new BooleanBuilder();
@@ -63,7 +67,15 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
         itemInfoDto.setItemOptions(infoOptionsDto);
       }
     }
-    return itemInfoList;
+
+    Pagination pagination = Pagination.builder()
+            .total(infoQueryResults.getTotal())
+            .offset(infoQueryResults.getOffset())
+            .limit(infoQueryResults.getLimit())
+            .build();
+
+    ItemDictionaryPageableDto result = new ItemDictionaryPageableDto(itemInfoList,pagination);
+    return result;
   }
 
   private static BooleanBuilder booleanBuilderMaker(ItemDictionaryCond itemDictionaryCond) {

@@ -41,7 +41,6 @@ public class GetServerListToObjectTest {
 
     //then
     ServerListResultDto serverListResultDto = resultList.get(0);
-    System.out.println("serverListResultDto = " + serverListResultDto);
     assertThat(resultList.get(0).getWorldId()).isEqualTo(1001);
     assertThat(resultList.get(0).getWorldName()).isEqualTo("바츠");
     assertThat(resultList.get(0).getServers().get(0).getServerName()).isEqualTo("바츠01");

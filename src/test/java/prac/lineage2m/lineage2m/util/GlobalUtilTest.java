@@ -23,9 +23,6 @@ class GlobalUtilTest {
     ItemInfo itemInfo = GlobalUtil.convertObjectBySameField(dto, entity);
     ItemInfoIncludeAttributeItemOptionsDto itemInfo2 = GlobalUtil.convertObjectBySameField(entity, dto);
 
-    System.out.println("itemInfo = " + itemInfo);
-    System.out.println("itemInfo2 = " + itemInfo2);
-
     //when
 
     //then

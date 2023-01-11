@@ -27,7 +27,6 @@ class ItemPriceStatsSearchServiceImplTest {
 
     //then
     assertThat(result).isNotNull();
-    System.out.println("result.toString() = " + result.toString());
   }
 
   @Test
@@ -45,7 +44,6 @@ class ItemPriceStatsSearchServiceImplTest {
 
     //then
     assertThat(result.getAvg()).isNull();
-    System.out.println("result.toString() = " + result.toString());
   }
 
   @Autowired
