@@ -27,7 +27,6 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
   private final JPAQueryFactory jpaQueryFactory;
   public ItemDictionaryPageableDto getItemListByCond(ItemDictionaryCond itemDictionaryCond, Pageable pageable){
     BooleanBuilder cond = booleanBuilderMaker(itemDictionaryCond);
-
     QueryResults<ItemInfo> infoQueryResults = jpaQueryFactory.select(itemInfo)
             .from(itemInfo)
             .leftJoin(itemInfo.enchantLevelList,enchantLevel1)
@@ -41,10 +40,10 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
     List<ItemDictionaryDto> itemDictionaryDtoList = new ArrayList<>();
     for (ItemInfo info : itemInfoList) {
       if (info.getEnchantLevelList().size()>0) {
-        EnchantLevel enchantLevel = info.getEnchantLevelList().get(0);
+        EnchantLevel enchantLevel = info.getEnchantLevelList().get(Math.toIntExact(itemDictionaryCond.getEnchantLevel()));
         itemDictionaryDtoList.add(new ItemDictionaryDto(info, info.getAttribute(), enchantLevel, enchantLevel.getItemOptionList()));
       }else {
-        itemDictionaryDtoList.add(new ItemDictionaryDto(info));
+        itemDictionaryDtoList.add(new ItemDictionaryDto((info), info.getAttribute()));
       }
     }
 
@@ -59,6 +58,7 @@ public class ItemDictionaryRepositoryImpl implements ItemDictionaryRepository{
       StringExpression concat = Expressions.asString("%").concat(itemDictionaryCond.getItemName()).concat("%");
       builder.and(itemInfo.itemName.like(concat));
     }
+    builder.and(queryDslCondMaker(itemInfo.itemId, itemDictionaryCond.getItemId()));
     builder.and(queryDslCondMaker(itemInfo.grade, itemDictionaryCond.getGrade()));
     builder.and(queryDslCondMaker(itemInfo.tradeCategoryName,itemDictionaryCond.getTradeCategoryName()));
     builder.and(queryDslCondMaker(enchantLevel1.enchantLevel, itemDictionaryCond.getEnchantLevel()).or(enchantLevel1.enchantLevel.isNull()));

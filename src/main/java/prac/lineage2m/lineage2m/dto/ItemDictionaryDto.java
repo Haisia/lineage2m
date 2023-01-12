@@ -37,6 +37,15 @@ public class ItemDictionaryDto {
     this.setTradeCategoryName(itemInfo.getTradeCategoryName());
   }
 
+  public ItemDictionaryDto(ItemInfo itemInfo, Attribute attribute){
+    this.setItemId(itemInfo.getItemId());
+    this.setItemName(itemInfo.getItemName());
+    this.setGrade(itemInfo.getGrade());
+    this.setGradeName(itemInfo.getGradeName());
+    this.setImage(itemInfo.getImage());
+    this.setTradeCategoryName(itemInfo.getTradeCategoryName());
+    this.attribute = GlobalUtil.convertObjectBySameField(attribute,new InfoAttributeDto());
+  }
 
   public ItemDictionaryDto(ItemInfo itemInfo, Attribute attribute, EnchantLevel enchantLevel){
     this.setItemId(itemInfo.getItemId());

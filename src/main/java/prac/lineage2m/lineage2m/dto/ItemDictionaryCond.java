@@ -10,6 +10,7 @@ import java.util.List;
 @ToString
 public class ItemDictionaryCond {
   private String itemName;
+  private Long itemId;
   private String grade;
   private String tradeCategoryName;
   private Long enchantLevel;

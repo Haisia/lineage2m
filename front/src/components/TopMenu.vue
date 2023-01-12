@@ -1,11 +1,4 @@
 <template>
-  <!--  <div class="top-menu">-->
-  <!--    <span class="project-name">Project - L2M</span>-->
-  <!--    <a v-for="(menu,i) in menuList" :key="i" class="top-menu" :href="menu.route">-->
-  <!--      {{ menuList[i].name }}-->
-  <!--    </a>-->
-  <!--  </div>-->
-
   <v-layout ref="app">
     <v-app-bar color="rgb(44, 34, 34)" name="app-bar" class="justify-center">
       <div class="d-flex justify-left align-center w-100" style="color: aliceblue;">
@@ -15,7 +8,7 @@
       </div>
     </v-app-bar>
     <v-main>
-      <v-card height="20px"></v-card>
+      <v-card height="0px"></v-card>
     </v-main>
   </v-layout>
 
