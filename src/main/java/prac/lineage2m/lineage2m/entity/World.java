@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -21,6 +22,9 @@ public class World {
 
   @Column(name = "world_name")
   private String worldName;
+
+  @OneToMany(mappedBy = "world")
+  private List<Server> serverList;
 
   public World(){}
 

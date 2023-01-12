@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter @Setter
 @ToString
@@ -23,6 +24,9 @@ public class EnchantLevel {
   @ManyToOne
   @JoinColumn(name = "item_info_pk")
   private ItemInfo itemInfo;
+
+  @OneToMany(mappedBy = "enchantLevel")
+  private List<ItemOption> itemOptionList;
 
   @Builder
   public EnchantLevel(Long enchantLevel, ItemInfo itemInfo) {

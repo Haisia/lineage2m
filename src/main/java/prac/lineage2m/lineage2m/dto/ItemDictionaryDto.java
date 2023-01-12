@@ -68,4 +68,21 @@ public class ItemDictionaryDto {
 
     this.itemOptions = optionList;
   }
+
+  public ItemDictionaryDto(ItemInfo itemInfo, Attribute attribute, EnchantLevel enchantLevel, List<ItemOption> itemOptions) {
+    this.setItemId(itemInfo.getItemId());
+    this.setItemName(itemInfo.getItemName());
+    this.setEnchantLevel(enchantLevel.getEnchantLevel());
+    this.setGrade(itemInfo.getGrade());
+    this.setGradeName(itemInfo.getGradeName());
+    this.setImage(itemInfo.getImage());
+    this.setTradeCategoryName(itemInfo.getTradeCategoryName());
+    this.attribute = GlobalUtil.convertObjectBySameField(attribute, new InfoAttributeDto());
+
+    List<InfoOptionsDto> list = new ArrayList<>();
+    for (ItemOption itemOption : itemOptions) {
+      list.add(GlobalUtil.convertObjectBySameField(itemOption,new InfoOptionsDto()));
+    }
+    this.itemOptions = list;
+  }
 }

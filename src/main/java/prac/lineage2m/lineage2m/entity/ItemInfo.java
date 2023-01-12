@@ -37,6 +37,13 @@ public class ItemInfo {
   @Column(name = "trade_category_name")
   private String tradeCategoryName;
 
+  @OneToOne(mappedBy = "itemInfo")
+  private Attribute attribute;
+
+  @OneToMany(mappedBy = "itemInfo")
+  private List<EnchantLevel> enchantLevelList;
+
+
   @Builder
   public ItemInfo(Long itemId, String itemName, String grade, String gradeName, String image, String tradeCategoryName) {
     this.itemId = itemId;
