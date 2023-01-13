@@ -112,6 +112,7 @@ export default {
       axios.get('http://localhost:8080/itemDictionary/search', {
         params: params,
       }).then((result) => {
+        result.data.itemInfoList[0].attribute.weight/=10000;
         this.itemInfoList = result.data.itemInfoList[0];
       }).finally(() => {
       });
@@ -134,6 +135,7 @@ export default {
     }).then((result) => {
       var description = result.data.itemInfoList[0].attribute.description;
       const removeReg = new RegExp("<.*>");
+      result.data.itemInfoList[0].attribute.weight/=10000;
       result.data.itemInfoList[0].attribute.description = description.replace(removeReg,"");
       this.itemInfoList = result.data.itemInfoList[0];
     }).finally(() => {

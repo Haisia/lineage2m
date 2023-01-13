@@ -17,7 +17,7 @@ export default [
     route: '/test',
   },
   {
-    name: '거래소검색',
-    route: '/test',
+    name: '아이템거래소',
+    route: '/item-stock',
   },
 ]

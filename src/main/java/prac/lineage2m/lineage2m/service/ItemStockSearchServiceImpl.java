@@ -24,14 +24,14 @@ public class ItemStockSearchServiceImpl implements ItemStockSearchService {
 
 
   public StockResultDto getItemStocksToObject(StockParamDto stockParamDto) {
-    // todo : String 이 url 인코딩이 안되어있다고 가정하고 진행한다. 나중에 프론트 만들때 인코딩 할지 말지 정하자
-    stockParamDto.setSearch_keyword(URLEncoder.encode(stockParamDto.getSearch_keyword(), StandardCharsets.UTF_8));
-
+    if (stockParamDto.getSearch_keyword() != null && !stockParamDto.getSearch_keyword().contains("%")) {
+      stockParamDto.setSearch_keyword(URLEncoder.encode(stockParamDto.getSearch_keyword(), StandardCharsets.UTF_8));
+    }
 
     Map<String, String> options = new HashMap<>() {
       {
         put("baseUrl", baseUrl);
-        put("Authorization",apiKey);
+        put("Authorization", apiKey);
       }
     };
 

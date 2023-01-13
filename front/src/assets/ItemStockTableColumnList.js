@@ -1,0 +1,22 @@
+export default [
+  {
+    name:"이미지",
+    fieldName:"image",
+  },
+  {
+    name:"이름",
+    fieldName:"itemName",
+  },
+  {
+    name:"등급",
+    fieldName:"grade",
+  },
+  {
+    name:"현재최저가",
+    fieldName:"nowMinUnitPrice",
+  },
+  {
+    name:"서버",
+    fieldName:"serverName",
+  },
+]

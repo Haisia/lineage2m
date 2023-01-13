@@ -27,6 +27,11 @@ export default [
   {
     grade: "mythic",
     name: "신화",
-    color: "Yellow"
+    color: "Orange"
+  },
+  {
+    grade: "special",
+    name: "스페셜",
+    color: "Saddlebrown"
   },
 ]

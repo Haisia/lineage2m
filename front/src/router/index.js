@@ -17,16 +17,19 @@ const routes = [
           {
             path: 'test',
             name: 'Test',
-            component: () => import('@/views/Test.vue'),
+            component: () => import('@/views/BaseHome.vue'),
 
+          },
+          {
+            path: 'item-stock',
+            name: 'ItemStock',
+            component: () => import('@/components/ItemStockList.vue'),
           },
           {
             path: 'login',
             name: 'UserLogin',
             component: () => import('@/components/UserLogin.vue'),
-
           },
-
           {
             path: 'item-dictionary',
             name: 'ItemDictionaryList',
