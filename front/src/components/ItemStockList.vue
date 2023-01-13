@@ -61,8 +61,6 @@
             <span v-if="result.grade === grade.name" :style="{'color' : grade.color}">{{ result.grade }}</span>
           </div>
         </td>
-
-
         <td style="width: 20%; padding-left: 5%">
           <img src="src/assets/diamond.PNG" style="width: 25px; height: 25px">
           {{ result.nowMinUnitPrice }}
@@ -76,7 +74,7 @@
         v-model="itemStockSearchCond.page"
         :length="itemStockSearchResult.pagination.lastPage"
         :total-visible="10"
-        @click="itemStockSearch(itemStockSearchCond)"
+        @click="itemStockSearch(itemStockSearchCond);;"
       ></v-pagination>
     </div>
 
@@ -146,6 +144,7 @@ export default {
           }
         }
         this.itemStockSearchResult = result.data;
+        window.scrollTo(0, 0);
       }).finally(() => {
       });
     }

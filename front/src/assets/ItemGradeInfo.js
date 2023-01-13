@@ -31,7 +31,7 @@ export default [
   },
   {
     grade: "special",
-    name: "스페셜",
+    name: "특수",
     color: "Saddlebrown"
   },
 ]

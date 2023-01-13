@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import prac.lineage2m.lineage2m.dto.ItemInfoIncludeAttributeItemOptionsDto;
 import prac.lineage2m.lineage2m.dto.NoParamDto;
@@ -11,8 +12,11 @@ import prac.lineage2m.lineage2m.dto.ServerListSearch.ServerListResultDto;
 import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamForRepositoryDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceResultDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockContentsDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
+import prac.lineage2m.lineage2m.repository.ItemInfoRepository;
+import prac.lineage2m.lineage2m.service.ItemInfoSearchService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -34,6 +38,7 @@ import java.util.Map;
  * &page=1&size=10
  */
 @Repository
+@RequiredArgsConstructor
 public class NCApiRepositoryImpl implements NCApiRepository {
   public StockResultDto getItemStocksToObject(StockParamDto stockParamDto, Map<String, String> options) {
     String json = apiCallOfGetToJsonString(stockParamDto, options);

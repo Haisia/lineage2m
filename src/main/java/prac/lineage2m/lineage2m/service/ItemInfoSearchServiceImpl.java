@@ -67,12 +67,15 @@ public class ItemInfoSearchServiceImpl implements ItemInfoSearchService {
     if (itemInfoDto.getItemId() == 0) return;
 
     Optional<ItemInfo> itemInfoOptional = itemInfoRepository.findByItemId(itemInfoDto.getItemId());
-    ItemInfo itemInfo;
+
     Attribute attribute = itemInfoDto.getAttribute();
     List<ItemOption> options = itemInfoDto.getOptions();
+    ItemInfo itemInfo = GlobalUtil.convertObjectBySameField(itemInfoDto, new ItemInfo());
+    itemInfo.setAttribute(null);
 
     if(itemInfoOptional.isEmpty()) {
-      itemInfo = itemInfoRepository.save(GlobalUtil.convertObjectBySameField(itemInfoDto, new ItemInfo()));
+      System.out.println("itemInfo.toString() = " + itemInfoDto.toString());
+      itemInfo = itemInfoRepository.save(itemInfo);
     }else {
       itemInfo = itemInfoOptional.get();
     }

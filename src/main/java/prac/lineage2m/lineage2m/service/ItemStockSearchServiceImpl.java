@@ -2,8 +2,11 @@ package prac.lineage2m.lineage2m.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import prac.lineage2m.lineage2m.dto.itemInfoSearch.InfoParamDto;
+import prac.lineage2m.lineage2m.dto.itemStockSearch.StockContentsDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockResultDto;
 import prac.lineage2m.lineage2m.dto.itemStockSearch.StockParamDto;
+import prac.lineage2m.lineage2m.repository.ItemInfoRepository;
 import prac.lineage2m.lineage2m.repository.apikey.ApiKeyRepository;
 import prac.lineage2m.lineage2m.repository.ncapi.NCApiRepository;
 import prac.lineage2m.lineage2m.util.GlobalUtil;
@@ -17,8 +20,9 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class ItemStockSearchServiceImpl implements ItemStockSearchService {
-  private final ApiKeyRepository apiKeyRepository;
   private final NCApiRepository NCApiRepository;
+  private final ItemInfoRepository itemInfoRepository;
+  private final ItemInfoSearchService itemInfoSearchService;
   private final String apiKey;
   private static String baseUrl = "https://dev-api.plaync.com/l2m/v1.0/market/items/search?";
 
@@ -34,8 +38,17 @@ public class ItemStockSearchServiceImpl implements ItemStockSearchService {
         put("Authorization", apiKey);
       }
     };
+    StockResultDto stockResultDto = NCApiRepository.getItemStocksToObject(stockParamDto, options);
 
-
-    return NCApiRepository.getItemStocksToObject(stockParamDto, options);
+    List<StockContentsDto> contentList = stockResultDto.getContents();
+    for (StockContentsDto stockContentsDto : contentList) {
+      Long itemId = stockContentsDto.getItemId();
+      if(itemInfoRepository.findByItemId(itemId).isEmpty()){
+        for (int i = 0; i < 14; i++) {
+          itemInfoSearchService.getItemInfoToObject(InfoParamDto.builder().item_id(itemId).enchant_level((long) i).build());
+        }
+      }
+    }
+    return stockResultDto;
   }
 }

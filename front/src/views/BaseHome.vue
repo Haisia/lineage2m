@@ -14,11 +14,5 @@ export default {
 
 
 </script>
-
 <style>
-.top-menu{
-  background: rgb(44, 34, 34);
-  color: aliceblue;
-  padding-left:10px;
-}
 </style>
