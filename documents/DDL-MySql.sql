@@ -78,6 +78,23 @@ create table item_option
 )
     comment '아이템의 성능관련 정보들';
 
+create table item_price_stats
+(
+    pk            int auto_increment
+        primary key,
+    create_date   date          not null comment 'row 추가 일자',
+    last_price    int           not null comment '최근거래가격',
+    enchant_level int default 0 not null comment '강화레벨',
+    world_id      int           not null,
+    world_name    varchar(10)   not null,
+    item_info_pk  int           not null,
+    constraint pk
+        unique (pk),
+    constraint item_price_stats_item_info_pk_fk
+        foreign key (item_info_pk) references item_info (pk)
+)
+    comment '일별 아이템 가격정보 저장 테이블';
+
 create table world
 (
     pk         int auto_increment
