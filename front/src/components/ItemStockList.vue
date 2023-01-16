@@ -1,32 +1,43 @@
 <template>
-<div class="left-search-bar">
-  <div class="use-border item-stock-search-container">
-    <div class="use-border item-stock-search-cond-item-name">
-      <span style="font-size: 40px">이름 : </span>
-      <input v-model="itemStockSearchCond.search_keyword" style="height: 50%; font-size: 30px">
-      <img src="src/assets/magnifier.PNG" @click="itemStockSearch(itemStockSearchCond)" style="width: 30px; height: 30px; margin-left: 1.3%">
-    </div>
-    <div class="use-border item-stock-search-cond-item-enchant-level">
-      <span style="font-size: 40px">강화 :</span>
-      <input v-model="itemStockSearchCond.from_enchant_level" style="height: 50%; width: 35px; font-size: 30px; margin-left: 1.3%; margin-right: 1.3%">
-      <span style="font-size: 40px">~</span>
-      <input v-model="itemStockSearchCond.to_enchant_level" style="height: 50%; width: 35px; font-size: 30px; margin-left: 1.3%; margin-right: 1.3%">
-    </div>
+  <div class="left-search-bar">
+    <div class="use-border item-stock-search-container">
+      <div class="use-border item-stock-search-cond-item-name">
+        <span style="font-size: 40px">이름 : </span>
+        <input v-model="itemStockSearchCond.search_keyword" style="height: 50%; font-size: 30px">
+        <img src="src/assets/magnifier.PNG" @click="itemStockSearchAsFirstPage(itemStockSearchCond)"
+             style="width: 30px; height: 30px; margin-left: 1.3%">
 
-    <div class="use-border item-stock-search-cond-item-server">
-      <span style="font-size: 40px">월드 :</span>
-      <select v-model="itemStockSearchCond.server_id" name="condServerId" id="condServerId" style="height: 50%; font-size: 30px; margin-left: 1.3%">
-        <option v-for="(world,i) in worldList" :key="i" :value="world.id">{{ world.name }}</option>
+        <br><span v-if="recommendKeywords.length!==0" style="font-size: 30px">추천 검색어 :
+      <select v-model="itemStockSearchCond.search_keyword" name="recommendKeyword" id="recommendKeyword"
+              style="height: 30%; font-size: 20px">
+        <option v-for="(keyword,i) in recommendKeywords" :key="i" :value="keyword.recommendKeyword">{{ keyword.recommendKeyword }}</option>
       </select>
-    </div>
-    <div class="use-border item-stock-search-preset">
-      <span style="font-size: 40px">프리셋 : 구현예정</span>
-<!--      <select v-model="itemStockSearchCond.server_id" name="condServerId" id="condServerId" style="height: 50%; font-size: 30px; margin-left: 1.3%">-->
-<!--        <option v-for="(world,i) in worldList" :key="i" :value="world.id">{{ world.name }}</option>-->
-<!--      </select>-->
+      </span>
+      </div>
+      <div class="use-border item-stock-search-cond-item-enchant-level">
+        <span style="font-size: 40px">강화 :</span>
+        <input v-model="itemStockSearchCond.from_enchant_level"
+               style="height: 50%; width: 35px; font-size: 30px; margin-left: 1.3%; margin-right: 1.3%">
+        <span style="font-size: 40px">~</span>
+        <input v-model="itemStockSearchCond.to_enchant_level"
+               style="height: 50%; width: 35px; font-size: 30px; margin-left: 1.3%; margin-right: 1.3%">
+      </div>
+
+      <div class="use-border item-stock-search-cond-item-server">
+        <span style="font-size: 40px">월드 :</span>
+        <select v-model="itemStockSearchCond.server_id" name="condServerId" id="condServerId"
+                style="height: 50%; font-size: 30px; margin-left: 1.3%">
+          <option v-for="(world,i) in worldList" :key="i" :value="world.id">{{ world.name }}</option>
+        </select>
+      </div>
+      <div class="use-border item-stock-search-preset">
+        <span style="font-size: 40px">프리셋 : 구현예정</span>
+        <!--      <select v-model="itemStockSearchCond.server_id" name="condServerId" id="condServerId" style="height: 50%; font-size: 30px; margin-left: 1.3%">-->
+        <!--        <option v-for="(world,i) in worldList" :key="i" :value="world.id">{{ world.name }}</option>-->
+        <!--      </select>-->
+      </div>
     </div>
   </div>
-</div>
 
   <div class="use-border item-stock-list-container">
     <table style="border-collapse: collapse; width: 100%">
@@ -92,6 +103,7 @@ export default {
   name: "ItemStockList",
   data() {
     return {
+      recommendKeywords: [],
       itemGradeInfo: itemGradeInfo,
       itemStockTableColumnList: itemStockTableColumnList,
       worldList: worldList,
@@ -129,8 +141,12 @@ export default {
 
     }
   },
-  methods:{
-    itemStockSearch(params){
+  methods: {
+    itemStockSearchAsFirstPage(params) {
+      params.page = 1;
+      this.itemStockSearch(params);
+    },
+    itemStockSearch(params) {
       axios.get('http://localhost:8080/market/items/search', {
         params: params,
       }).then((result) => {
@@ -145,44 +161,62 @@ export default {
         }
         this.itemStockSearchResult = result.data;
         window.scrollTo(0, 0);
+
+        if (result.data.contents.length === 0) {
+          this.getRecommendKeyword();
+        }else{
+          this.recommendKeywords = [];
+        }
       }).finally(() => {
       });
-    }
-  },
-  created() {
-    let params = {
-      server_id: worldList[0].id,
-      sale: true,
-      from_enchant_level: 0,
-      to_enchant_level: 0,
-      page: 1,
-      size: 30,
-    };
-    axios.get('http://localhost:8080/market/items/search', {
-      params: params,
-    }).then((result) => {
-      const contents = result.data.contents;
-      for (let i = 0; i < contents.length; i++) {
-        for (const gradeInfo of itemGradeInfo) {
-          if (contents[i].grade === gradeInfo.grade) {
-            result.data.contents[i].grade = gradeInfo.name;
-            break;
-          }
-        }
-      }
-      this.itemStockSearchResult = result.data;
-    }).finally(() => {
-    });
-  },
+    },
 
-  watch: {
-    'itemStockSearchCond.from_enchant_level' : function (){
-      if (this.itemStockSearchCond.from_enchant_level>this.itemStockSearchCond.to_enchant_level){
-        alert("최소치는 최대치를 넘을 수 없습니다.");
-        this.itemStockSearchCond.from_enchant_level =this.itemStockSearchCond.to_enchant_level;
-      }
+    getRecommendKeyword() {
+      axios.get('http://localhost:8080/itemStock/recommendKeyword', {
+        params: {
+          search_keyword: this.itemStockSearchCond.search_keyword
+        }
+      }).then((result) => {
+        this.recommendKeywords = result.data;
+      }).finally(()=>{
+        console.log(this.recommendKeywords[0].recommendKeyword);
+      });
     },
   },
+  created() {
+      let params = {
+        server_id: worldList[0].id,
+        sale: true,
+        from_enchant_level: 0,
+        to_enchant_level: 0,
+        page: 1,
+        size: 30,
+      };
+      axios.get('http://localhost:8080/market/items/search', {
+        params: params,
+      }).then((result) => {
+        const contents = result.data.contents;
+        for (let i = 0; i < contents.length; i++) {
+          for (const gradeInfo of itemGradeInfo) {
+            if (contents[i].grade === gradeInfo.grade) {
+              result.data.contents[i].grade = gradeInfo.name;
+              break;
+            }
+          }
+        }
+        this.itemStockSearchResult = result.data;
+      }).finally(() => {
+      });
+    },
+    watch: {
+      'itemStockSearchCond.from_enchant_level': function () {
+        if (this.itemStockSearchCond.from_enchant_level > this.itemStockSearchCond.to_enchant_level) {
+          alert("최소치는 최대치를 넘을 수 없습니다.");
+          this.itemStockSearchCond.from_enchant_level = this.itemStockSearchCond.to_enchant_level;
+        }
+      },
+    },
+
 }
 </script>
 
@@ -199,7 +233,7 @@ export default {
   width: 60%;
 }
 
-.left-search-bar{
+.left-search-bar {
   float: left;
   margin-top: 3%;
   margin-left: 2%;
@@ -216,33 +250,34 @@ export default {
   height: 70%
 }
 
-.item-stock-search-cond-item-name{
+.item-stock-search-cond-item-name {
   float: left;
   width: 100%;
   height: 20%;
   margin-top: 5%;
 }
 
-.item-stock-search-cond-item-enchant-level{
+.item-stock-search-cond-item-enchant-level {
   float: left;
   width: 100%;
   height: 20%;
   margin-top: 5%;
 }
 
-.item-stock-search-cond-item-server{
+.item-stock-search-cond-item-server {
   float: left;
   width: 100%;
   height: 20%;
   margin-top: 5%;
 }
 
-.item-stock-search-preset{
+.item-stock-search-preset {
   float: left;
   width: 100%;
   height: 20%;
   margin-top: 5%;
 }
+
 input {
   border: 0;
   border-radius: 15px;
@@ -250,7 +285,8 @@ input {
   padding-left: 10px;
   background-color: rgb(233, 233, 233);
 }
-select{
+
+select {
   border: 0;
   border-radius: 15px;
   outline: none;
