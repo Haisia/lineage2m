@@ -16,30 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `world`
+-- Table structure for table `item_price_stats`
 --
 
-DROP TABLE IF EXISTS `world`;
+DROP TABLE IF EXISTS `item_price_stats`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `world` (
+CREATE TABLE `item_price_stats` (
   `pk` int NOT NULL AUTO_INCREMENT,
-  `world_id` int DEFAULT NULL,
+  `create_date` date NOT NULL COMMENT 'row 추가 일자',
+  `last_price` int NOT NULL COMMENT '최근거래가격',
+  `enchant_level` int NOT NULL DEFAULT '0' COMMENT '강화레벨',
+  `world_id` int NOT NULL,
   `world_name` varchar(10) NOT NULL,
+  `item_info_pk` int NOT NULL,
   PRIMARY KEY (`pk`),
   UNIQUE KEY `pk` (`pk`),
-  UNIQUE KEY `world_name` (`world_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='월드목록';
+  KEY `item_price_stats_item_info_pk_fk` (`item_info_pk`),
+  CONSTRAINT `item_price_stats_item_info_pk_fk` FOREIGN KEY (`item_info_pk`) REFERENCES `item_info` (`pk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='일별 아이템 가격정보 저장 테이블';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `world`
+-- Dumping data for table `item_price_stats`
 --
 
-LOCK TABLES `world` WRITE;
-/*!40000 ALTER TABLE `world` DISABLE KEYS */;
-INSERT INTO `world` VALUES (234,1001,'바츠'),(235,1011,'지그하르트'),(236,1021,'카인'),(237,1031,'리오나'),(238,1041,'에리카'),(239,1051,'거스틴'),(240,1061,'카스티엔'),(241,1071,'아리아'),(242,1081,'드비안느'),(243,1091,'테온'),(244,1101,'에르휘나'),(245,1111,'아이린'),(246,1121,'오필리아'),(247,1131,'바이움'),(248,1141,'안타라스'),(249,1151,'파푸리온');
-/*!40000 ALTER TABLE `world` ENABLE KEYS */;
+LOCK TABLES `item_price_stats` WRITE;
+/*!40000 ALTER TABLE `item_price_stats` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item_price_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
