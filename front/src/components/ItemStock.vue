@@ -32,6 +32,12 @@
       'item-dictionary-detail-attribute-container':itemInfoList.itemOptions!==null,
       'item-dictionary-detail-attribute-skill-book':itemInfoList.itemOptions==null,
          }">
+      <span class="print-item-attribute">월드 :</span>
+      <select v-model="itemPriceCond.server_id" name="condServerId" id="condServerId"
+              style="height: 50%; font-size: 30px; margin-left: 1.3%">
+        <option v-for="(world,i) in worldList" :key="i" :value="world.id">{{ world.name }}</option>
+      </select>
+
       <p class="print-item-attribute">최근거래가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.last.unitPrice !==null? itemPriceInfo.last.unitPrice : 0 }}</p>
       <p class="print-item-attribute">현재최저가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.now.unitPrice !==null? itemPriceInfo.now.unitPrice : 0 }}</p>
       <p class="print-item-attribute">평균가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.avg.unitPrice !==null? itemPriceInfo.avg.unitPrice : 0 }}</p>
@@ -63,11 +69,13 @@
 <script>
 import axios from "axios";
 import itemGradeInfo from "@/assets/ItemGradeInfo";
+import worldList from "@/assets/WorldList";
 
 export default {
   name: "ItemStock",
   data() {
     return {
+      worldList: worldList,
       itemGradeInfo: itemGradeInfo,
       enchantLevel: 0,
       itemDictionaryCond: {
@@ -165,8 +173,14 @@ export default {
 
       this.itemPriceInfo = {};
       this.itemPriceSearch(this.itemPriceCond);
-
     },
+
+    'itemPriceCond.server_id': function () {
+      this.itemPriceSearch(this.itemPriceCond);
+    },
+
+
+
   },
   created() {
     const itemId = this.$route.params.itemId;
