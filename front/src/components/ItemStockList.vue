@@ -10,7 +10,8 @@
         <br><span v-if="recommendKeywords.length!==0" style="font-size: 30px">추천 검색어 :
       <select v-model="itemStockSearchCond.search_keyword" name="recommendKeyword" id="recommendKeyword"
               style="height: 30%; font-size: 20px">
-        <option v-for="(keyword,i) in recommendKeywords" :key="i" :value="keyword.recommendKeyword">{{ keyword.recommendKeyword }}</option>
+        <option v-for="(keyword,i) in recommendKeywords" :key="i"
+                :value="keyword.recommendKeyword">{{ keyword.recommendKeyword }}</option>
       </select>
       </span>
       </div>
@@ -56,14 +57,13 @@
           <img :src="result.image" style="width: 40px; height: 40px;">
         </td>
         <td>
-          <div v-for="(grade, i) in itemGradeInfo" :key="i">
+          <div v-for="(grade, i) in itemGradeInfo" :key="i" style="padding-left: 8%">
           <span v-if="result.enchantLevel!==0 && result.enchantLevel!=null && result.grade === grade.name"
-                style="padding-left: 8%"
                 :style="{'color' : grade.color}">
             +{{ result.enchantLevel }}
           </span>
-            <span v-if="result.grade === grade.name" :style="{'color' : grade.color}">
-          {{ result.itemName }}
+          <span v-if="result.grade === grade.name" :style="{'color' : grade.color}">
+            <router-link :to="'/item-stock/'+result.itemId">{{ result.itemName }}</router-link>
           </span>
           </div>
         </td>
@@ -90,7 +90,6 @@
     </div>
 
   </div>
-
 </template>
 
 <script>
@@ -164,7 +163,7 @@ export default {
 
         if (result.data.contents.length === 0) {
           this.getRecommendKeyword();
-        }else{
+        } else {
           this.recommendKeywords = [];
         }
       }).finally(() => {
@@ -178,44 +177,44 @@ export default {
         }
       }).then((result) => {
         this.recommendKeywords = result.data;
-      }).finally(()=>{
+      }).finally(() => {
         console.log(this.recommendKeywords[0].recommendKeyword);
       });
     },
   },
   created() {
-      let params = {
-        server_id: worldList[0].id,
-        sale: true,
-        from_enchant_level: 0,
-        to_enchant_level: 0,
-        page: 1,
-        size: 30,
-      };
-      axios.get('http://localhost:8080/market/items/search', {
-        params: params,
-      }).then((result) => {
-        const contents = result.data.contents;
-        for (let i = 0; i < contents.length; i++) {
-          for (const gradeInfo of itemGradeInfo) {
-            if (contents[i].grade === gradeInfo.grade) {
-              result.data.contents[i].grade = gradeInfo.name;
-              break;
-            }
+    let params = {
+      server_id: worldList[0].id,
+      sale: true,
+      from_enchant_level: 0,
+      to_enchant_level: 0,
+      page: 1,
+      size: 30,
+    };
+    axios.get('http://localhost:8080/market/items/search', {
+      params: params,
+    }).then((result) => {
+      const contents = result.data.contents;
+      for (let i = 0; i < contents.length; i++) {
+        for (const gradeInfo of itemGradeInfo) {
+          if (contents[i].grade === gradeInfo.grade) {
+            result.data.contents[i].grade = gradeInfo.name;
+            break;
           }
         }
-        this.itemStockSearchResult = result.data;
-      }).finally(() => {
-      });
+      }
+      this.itemStockSearchResult = result.data;
+    }).finally(() => {
+    });
+  },
+  watch: {
+    'itemStockSearchCond.from_enchant_level': function () {
+      if (this.itemStockSearchCond.from_enchant_level > this.itemStockSearchCond.to_enchant_level) {
+        alert("최소치는 최대치를 넘을 수 없습니다.");
+        this.itemStockSearchCond.from_enchant_level = this.itemStockSearchCond.to_enchant_level;
+      }
     },
-    watch: {
-      'itemStockSearchCond.from_enchant_level': function () {
-        if (this.itemStockSearchCond.from_enchant_level > this.itemStockSearchCond.to_enchant_level) {
-          alert("최소치는 최대치를 넘을 수 없습니다.");
-          this.itemStockSearchCond.from_enchant_level = this.itemStockSearchCond.to_enchant_level;
-        }
-      },
-    },
+  },
 
 }
 </script>

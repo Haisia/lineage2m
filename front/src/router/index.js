@@ -22,8 +22,13 @@ const routes = [
           },
           {
             path: 'item-stock',
-            name: 'ItemStock',
+            name: 'ItemStockList',
             component: () => import('@/components/ItemStockList.vue'),
+          },
+          {
+            path: 'item-stock/:itemId',
+            name: 'ItemStockDetail',
+            component: () => import('@/components/ItemStock.vue'),
           },
           {
             path: 'login',

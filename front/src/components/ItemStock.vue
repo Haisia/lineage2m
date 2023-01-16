@@ -15,7 +15,6 @@
       </div>
       <div class="use-border item-dictionary-detail-grade">
         <br>
-
         <div class="print-item-grade-name" v-for="(grade,i) in itemGradeInfo" :key="i">
           <p v-if="itemInfoList.gradeName === grade.name" :style="{'color' : grade.color}">
             {{ itemInfoList.gradeName }}
@@ -33,15 +32,11 @@
       'item-dictionary-detail-attribute-container':itemInfoList.itemOptions!==null,
       'item-dictionary-detail-attribute-skill-book':itemInfoList.itemOptions==null,
          }">
-      <p class="print-item-attribute">제작재료 : {{ itemInfoList.attribute.materialName }}</p>
-      <p class="print-item-attribute">무게 : {{ itemInfoList.attribute.weight }}</p>
-      <p class="print-item-attribute">최대 안전강화 : {{ itemInfoList.attribute.safeEnchantLevel }}</p>
-      <p class="print-item-attribute">컬렉션 수 : {{ itemInfoList.attribute.collectionCount }}</p>
-      <p class="print-item-attribute">사망시 드랍 : {{ itemInfoList.attribute.droppable }}</p>
-      <p class="print-item-attribute">강화 가능 : {{ itemInfoList.attribute.enchantable }}</p>
-      <p class="print-item-attribute">보관 가능 : {{ itemInfoList.attribute.storable }}</p>
-      <p class="print-item-attribute">거래 가능 : {{ itemInfoList.attribute.tradeable }}</p>
-      <p class="print-item-attribute">{{ itemInfoList.attribute.description }}</p>
+      <p class="print-item-attribute">최근거래가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.last.unitPrice !==null? itemPriceInfo.last.unitPrice : 0 }}</p>
+      <p class="print-item-attribute">현재최저가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.now.unitPrice !==null? itemPriceInfo.now.unitPrice : 0 }}</p>
+      <p class="print-item-attribute">평균가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.avg.unitPrice !==null? itemPriceInfo.avg.unitPrice : 0 }}</p>
+      <p class="print-item-attribute">최소가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.min.unitPrice !==null? itemPriceInfo.min.unitPrice : 0 }}</p>
+      <p class="print-item-attribute">최대가격 : <img src="/assets/diamond.PNG" style="width: 25px; height: 25px">{{ itemPriceInfo.max.unitPrice !==null? itemPriceInfo.max.unitPrice : 0 }}</p>
     </div>
 
     <div class="use-border item-dictionary-detail-option-container" v-if="itemInfoList.itemOptions!==null">
@@ -70,13 +65,47 @@ import axios from "axios";
 import itemGradeInfo from "@/assets/ItemGradeInfo";
 
 export default {
-  name: "ItemDictionary",
+  name: "ItemStock",
   data() {
     return {
       itemGradeInfo: itemGradeInfo,
       enchantLevel: 0,
       itemDictionaryCond: {
         itemId: this.$route.params.itemId, enchantLevel: 0,
+      },
+      itemPriceCond: {
+        server_id: 1001, enchant_level: 0,
+      },
+      itemPriceInfo: {
+        itemId: Number,
+        serverId: Number,
+        enchantLevel: Number,
+        last: {
+          world: Boolean,
+          unitPrice: Number,
+        },
+        now: {
+          serverId: Number,
+          serverName: String,
+          world: Boolean,
+          unitPrice: Number,
+        },
+        min: {
+          serverId: Number,
+          serverName: String,
+          world: Boolean,
+          unitPrice: Number,
+        },
+        max: {
+          serverId: Number,
+          serverName: String,
+          world: Boolean,
+          unitPrice: Number,
+        },
+        avg: {
+          unitPrice: Number,
+          world: Boolean,
+        },
       },
       itemInfoList: {
         itemId: Number,
@@ -118,11 +147,25 @@ export default {
       }).finally(() => {
       });
     },
+    itemPriceSearch(params) {
+      axios.get('http://localhost:8080/market/items/'+this.$route.params.itemId+'/price', {
+        params: params,
+      }).then((result) => {
+        this.itemPriceInfo = result.data;
+      }).finally(() => {
+      });
+    }
+
   },
   watch: {
     enchantLevel() {
       this.itemDictionaryCond.enchantLevel = this.enchantLevel;
+      this.itemPriceCond.enchant_level = this.enchantLevel;
       this.itemDictionarySearch(this.itemDictionaryCond);
+
+      this.itemPriceInfo = {};
+      this.itemPriceSearch(this.itemPriceCond);
+
     },
   },
   created() {
@@ -131,6 +174,10 @@ export default {
     let params = {
       enchantLevel: 0, itemId: itemId,
     };
+    let priceParam = {
+      item_id: this.$route.params.itemId, enchant_level: 0, server_id : 1001,
+    };
+
     axios.get('http://localhost:8080/itemDictionary/search', {
       params: params,
     }).then((result) => {
@@ -140,7 +187,13 @@ export default {
       result.data.itemInfoList[0].attribute.description = description.replace(removeReg,"");
       this.itemInfoList = result.data.itemInfoList[0];
     }).finally(() => {
-      console.log(this.itemInfoList);
+    });
+
+    axios.get('http://localhost:8080/market/items/'+itemId+'/price', {
+      params: priceParam,
+    }).then((result) => {
+      this.itemPriceInfo = result.data;
+    }).finally(() => {
     });
   },
 }
@@ -245,3 +298,8 @@ export default {
 
 
 </style>
+
+
+
+
+
