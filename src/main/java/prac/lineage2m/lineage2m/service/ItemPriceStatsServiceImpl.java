@@ -45,7 +45,7 @@ public class ItemPriceStatsServiceImpl implements ItemPriceStatsService {
       String itemIdStr;
       while ((itemIdStr = br.readLine()) != null) {
         Long itemId = Long.parseLong(itemIdStr);
-        if(!isExitItemPriceStats(itemId) && getLastPrice(itemId)!=null && getLastPrice(itemId)!=0){
+        if(!isExitItemPriceStats(itemId) && getLastPrice(itemId)!=null){
           ItemPriceStats itemPriceStats = itemPriceStatsMaker(itemId, getLastPrice(itemId));
           itemPriceStatsRepository.save(itemPriceStats);
         }
