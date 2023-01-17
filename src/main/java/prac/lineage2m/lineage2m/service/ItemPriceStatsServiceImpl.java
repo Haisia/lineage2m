@@ -2,7 +2,9 @@ package prac.lineage2m.lineage2m.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import prac.lineage2m.lineage2m.dto.ItemPriceStatsCond;
+import prac.lineage2m.lineage2m.dto.ItemPriceStatsResultDto;
 import prac.lineage2m.lineage2m.dto.itemPriceStatsSearch.PriceParamDto;
 import prac.lineage2m.lineage2m.entity.ItemInfo;
 import prac.lineage2m.lineage2m.entity.ItemPriceStats;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,6 +26,11 @@ public class ItemPriceStatsServiceImpl implements ItemPriceStatsService {
   private final ItemPriceStatsRepository itemPriceStatsRepository;
   private final ItemPriceStatsSearchService itemPriceStatsSearchService;
   private final ItemInfoRepository itemInfoRepository;
+
+
+  public List<ItemPriceStatsResultDto> getItemPriceStats(ItemPriceStatsCond itemPriceStatsCond) {
+    return itemPriceStatsRepository.findListByCond(itemPriceStatsCond);
+  }
 
 
   /**
