@@ -38,9 +38,11 @@ public class ItemInfo {
   private String tradeCategoryName;
 
   @OneToOne(mappedBy = "itemInfo")
+  @ToString.Exclude
   private Attribute attribute;
 
   @OneToMany(mappedBy = "itemInfo")
+  @ToString.Exclude
   private List<EnchantLevel> enchantLevelList;
 
 

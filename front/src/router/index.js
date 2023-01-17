@@ -15,10 +15,14 @@ const routes = [
         component: () => import('@/views/BaseHome.vue'),
         children: [
           {
-            path: 'test',
-            name: 'Test',
-            component: () => import('@/views/BaseHome.vue'),
-
+            path: 'item-price-stats',
+            name: 'ItemPriceStats',
+            component: () => import('@/components/ItemPriceStats.vue'),
+          },
+          {
+            path: 'item-price-stats/:itemId',
+            name: 'ItemPriceStatsDetail',
+            component: () => import('@/components/ItemPriceStatsDetail.vue'),
           },
           {
             path: 'item-stock',

@@ -3,7 +3,7 @@
     <div class="top-menu-bar" style="width: 100%">
       <v-app-bar color="rgb(44, 34, 34)" name="app-bar" class="justify-center">
         <div class="d-flex justify-left align-center w-100" style="color: aliceblue;">
-          <p class="project-name" style=" font-weight: bold; font-size: 25px">Project - L2M</p>
+          <a href="/" class="project-name" style=" font-weight: bold; font-size: 25px">Project - L2M</a>
           <div style="margin-left: 5%"></div>
           <a v-for="(menu,i) in menuList" :key="i" :href="menu.route" class="top-menu">{{ menu.name }}</a>
         </div>

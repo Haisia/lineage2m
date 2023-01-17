@@ -74,7 +74,6 @@ public class ItemInfoSearchServiceImpl implements ItemInfoSearchService {
     itemInfo.setAttribute(null);
 
     if(itemInfoOptional.isEmpty()) {
-      System.out.println("itemInfo.toString() = " + itemInfoDto.toString());
       itemInfo = itemInfoRepository.save(itemInfo);
     }else {
       itemInfo = itemInfoOptional.get();

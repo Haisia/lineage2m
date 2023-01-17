@@ -1,10 +1,14 @@
 package prac.lineage2m.lineage2m.util;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 public class GlobalUtil {
   public static String keyMaker(String key) {
@@ -57,4 +61,10 @@ public class GlobalUtil {
     return null;
   }
 
+  public static BooleanExpression queryDslCondMaker(DateTimePath<Date> stringPath, Date cond) {
+    if (stringPath != null && cond != null) {
+      return stringPath.eq(cond);
+    }
+    return null;
+  }
 }

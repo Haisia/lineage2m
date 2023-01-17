@@ -46,6 +46,7 @@ public class Attribute {
 
   @OneToOne
   @JoinColumn(name = "item_info_pk")
+  @ToString.Exclude
   private ItemInfo itemInfo;
 
 

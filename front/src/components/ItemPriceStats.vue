@@ -12,7 +12,7 @@
         <label for="condEnchantLevel" style="font-family: sans-serif; font-size: 1rem; padding-right: 10px;">강화레벨
           :</label>
         <select v-model="itemDictionaryCond.enchantLevel" name="condEnchantLevel" id="pet-condEnchantLevel" style="font-size: 0.9rem; padding: 2px 5px;">
-          <option v-for="i in 14" :key="i" :value="i-1">{{ i - 1 }}</option>
+          <option v-for="i in 1" :key="i" :value="i-1">{{ i - 1 }}</option>
         </select>
       </div>
 
@@ -35,14 +35,10 @@
         </select>
       </div>
     </div>
-
     <div style="width: auto">
-      <img src="/src/assets/magnifier.PNG" @click="itemDictionarySearch(itemDictionaryCond)" style="width: 80px; position: fixed"/>
+        <img src="/src/assets/magnifier.PNG" @click="itemDictionarySearch(itemDictionaryCond)" style="width: 80px; position: fixed"/>
     </div>
-
   </div>
-
-
   <div style="float:left; width: 90%; margin-left: 5%">
     <v-table density="compact" class="item-dictionary-table">
       <thead>
@@ -56,7 +52,7 @@
       <tbody>
       <tr v-for="(result,i) in itemDictionaryResult.itemInfoList" :key="i">
         <td>{{ itemDictionaryResult.pagination.offset + i + 1 }}</td>
-        <td><router-link :to="'/item-dictionary/'+result.itemId">{{ result.itemName }}</router-link></td>
+        <td><router-link :to="'/item-price-stats/'+result.itemId">{{ result.itemName }}</router-link></td>
         <td>{{ result.enchantLevel }}</td>
         <td>{{ result.gradeName }}</td>
         <td>{{ result.tradeCategoryName }}</td>
@@ -83,7 +79,7 @@ import itemGradeInfo from "@/assets/ItemGradeInfo";
 import itemTradeCategoryInfo from "@/assets/ItemTradeCategoryInfo";
 
 export default {
-  name: "ItemDictionary",
+  name: "ItemPriceStats",
   data() {
     return {
       nowPage: 1,
@@ -153,3 +149,4 @@ export default {
   margin-right: 15%;
 }
 </style>
+

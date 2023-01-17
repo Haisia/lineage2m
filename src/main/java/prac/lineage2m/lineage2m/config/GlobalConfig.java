@@ -16,6 +16,6 @@ public class GlobalConfig {
   @Bean(name = "apiKey")
   public String apiKey(){
     List<String> keyList = apiKeyRepository.findAll();
-    return GlobalUtil.keyMaker(keyList.get(2));
+    return GlobalUtil.keyMaker(keyList.get(1));
   }
 }
